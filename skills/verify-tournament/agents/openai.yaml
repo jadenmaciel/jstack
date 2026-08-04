@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify Tournament"
+  short_description: "Sandboxed multi-check verification tournaments"
+  default_prompt: "Use $verify-tournament to compare candidate instruction changes in a sandbox and return the evidence."

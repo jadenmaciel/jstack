@@ -1,0 +1,6 @@
+interface:
+  display_name: "Land"
+  short_description: "Revalidate and merge one named PR"
+  default_prompt: "Use $land to revalidate and merge this named PR."
+policy:
+  allow_implicit_invocation: false

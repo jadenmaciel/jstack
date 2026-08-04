@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML Artifact</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8f5;
+      --surface: #ffffff;
+      --text: #17201a;
+      --muted: #5f6b63;
+      --line: #dfe5de;
+      --accent: #256f5b;
+      --accent-soft: #e3f2ec;
+      --warn: #8a5b16;
+      --radius: 8px;
+      --shadow: 0 18px 45px rgba(23, 32, 26, 0.08);
+      --max: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    .page {
+      width: min(var(--max), calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 48px 0 64px;
+    }
+
+    header {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 860px;
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .summary {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 4px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--muted);
+      font-size: 0.86rem;
+      white-space: nowrap;
+    }
+
+    main {
+      display: grid;
+      gap: 20px;
+    }
+
+    section {
+      min-width: 0;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.35rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 20px 0 8px;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    p,
+    li,
+    td,
+    th,
+    .callout {
+      overflow-wrap: anywhere;
+    }
+
+    ul,
+    ol {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+
+    li + li {
+      margin-top: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .callout {
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: var(--accent-soft);
+    }
+
+    .callout.warning {
+      border-left-color: var(--warn);
+      background: #fff5df;
+    }
+
+    .table-wrap {
+      max-width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+      background: var(--surface);
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3ee;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    :focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--accent) 65%, white);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100vw - 20px, var(--max));
+        padding: 28px 0 44px;
+      }
+
+      section {
+        padding: 18px;
+      }
+
+      .pill {
+        white-space: normal;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .page {
+        width: auto;
+        padding: 0;
+      }
+
+      section {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <p class="eyebrow">Artifact Type</p>
+      <h1>Replace with a Specific, Useful Title</h1>
+      <p class="summary">Write a concise summary of what this artifact helps the reader understand or decide.</p>
+      <div class="meta" aria-label="Document metadata">
+        <span class="pill">Audience: Team</span>
+        <span class="pill">Status: Draft</span>
+        <span class="pill">Updated: YYYY-MM-DD</span>
+      </div>
+    </header>
+
+    <main>
+      <section aria-labelledby="overview-heading">
+        <h2 id="overview-heading">Overview</h2>
+        <p>Replace this section with the essential context, current state, and outcome.</p>
+        <div class="callout">
+          <strong>Decision:</strong> Highlight the most important conclusion or next action.
+        </div>
+      </section>
+
+      <section aria-labelledby="details-heading">
+        <h2 id="details-heading">Details</h2>
+        <div class="grid">
+          <article>
+            <h3>What changes</h3>
+            <p>Describe the change or finding in direct language.</p>
+          </article>
+          <article>
+            <h3>Why it matters</h3>
+            <p>Connect the work to user, product, or engineering impact.</p>
+          </article>
+          <article>
+            <h3>Evidence</h3>
+            <p>List the proof, source quality, commands, screenshots, or links.</p>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="table-heading">
+        <h2 id="table-heading">Comparison</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Status</th>
+                <th>Evidence</th>
+                <th>Next</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Example</td>
+                <td>Ready</td>
+                <td>Validated locally</td>
+                <td>Replace with next action</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Generated as a standalone HTML artifact. Verify screenshots before sharing.
+    </footer>
+  </div>
+</body>
+</html>

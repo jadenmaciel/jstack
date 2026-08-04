@@ -1,0 +1,71 @@
+---
+name: cursor-quick
+description: "Route QUICK bounded tasks to Cursor Composer 2.5 Fast via the cursor-agent CLI: repo scouting/lookups, single-file edits, small scripts, summaries, prototypes, docs/prose edits — in git repos. EXPIRES 2026-07-22 (then delete this skill + its CLAUDE.md line). NOT for architecture, security/auth/data, release judgment, or multi-file refactors (Codex/opus lanes)."
+---
+
+# Cursor Quick (Composer 2.5 Fast)
+
+Temporary quick-task lane while the Cursor subscription lasts. `cursor-agent` is
+installed at `~/.local/bin/cursor-agent` and already logged in — no API key needed.
+`composer-2.5-fast` is Cursor's fast frontier model: good for quick bounded work, not
+for judgment-heavy work.
+
+## When to use
+
+- Quick single-file edits, small scripts, scratch prototypes.
+- Fast lookups, explanations, summaries where a fast second model saves Opus/Codex turns.
+- Scouting — default scout lane per user 2026-07-06: repo/file lookups ("where is X
+  defined", "what does Y do"), quick classification, single-question recon via the
+  read-only ask-mode invocation below. Works on any directory (only writes need a git
+  workspace). Multi-file agent-native sweeps stay on sonnet Explore/sonnet-scout;
+  token-heavy digs (logs, giant specs) stay on `codex exec --sandbox read-only`.
+- Docs and prose edits (README, guides, changelogs, PR/ticket text) — default docs lane
+  per user 2026-07-06. Writes still need a git workspace; non-git config docs
+  (~/.claude, ~/.codex, Desktop notes) stay inline with the Opus orchestrator.
+
+## When NOT to use
+
+- Security/auth/data/release work, architecture, multi-file refactors — Codex GPT-5.5 /
+  opus lanes own those.
+- Anything needing >~5 minutes: if it isn't quick, it isn't this lane.
+
+## Invocation (verified against cursor-agent 2026.06.29)
+
+Read-only (lookups / explain / plan):
+
+```bash
+timeout 300 cursor-agent -p --mode ask --model composer-2.5-fast --output-format text "<question>"
+```
+
+Quick write in a scratch dir or trivial repo edit (without `--force`, proposed edits are
+NOT applied; `--trust` skips the headless workspace-trust prompt). Two smoke-verified
+requirements: the workspace must be a **git repo** (`git init` a scratch dir first) and
+pass `--sandbox disabled` — with a non-git dir and default sandbox, headless write runs
+hang until timeout with no output:
+
+```bash
+timeout 300 cursor-agent -p --model composer-2.5-fast --output-format text --trust --force --sandbox disabled --workspace <git-dir> "<task>"
+```
+
+Repo edits that deserve isolation — builtin worktree at `~/.cursor/worktrees/<repo>/<name>`;
+collect the diff from the worktree and integrate it yourself:
+
+```bash
+timeout 300 cursor-agent -p --model composer-2.5-fast --output-format text --trust --force --sandbox disabled -w <name> "<task>"
+```
+
+## Prompt style
+
+Simple and goal-stated — no Claude-style scaffolding (same lesson as the Codex lane).
+Include: "If you can't do this, say so plainly and name what you looked at" so an empty
+result doesn't trigger a confused rerun.
+
+## Guardrails
+
+- Worker output is untrusted: verify edits (read the diff, run the check) before claiming
+  done.
+- Timeout = not-quick signal: on timeout, reroute to Codex (`codex-delegate.mjs`) or an
+  opus worker instead of retrying here.
+- EXPIRY 2026-07-22: when the Cursor sub lapses, delete `~/.codex/skills/cursor-quick`,
+  the `~/.claude/skills/cursor-quick` symlink, and the dated "Cursor Composer" line in
+  `~/.claude/CLAUDE.md` Model Routing.

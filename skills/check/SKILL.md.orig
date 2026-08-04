@@ -1,0 +1,114 @@
+---
+name: check
+description: Use when the user invokes $check after implementation or remediation, or asks for QA, review, screenshots, or test validation. Grades the accepted scope PASS, WARN, or BLOCK with proof. Also runs a strict maintainability (thermo-nuclear) code-quality bar and an AI-slop cleanup pass.
+---
+
+# check
+
+SprintFlow's QA and validation boundary. Emit the QA plan first, run agent QA plus focused validation, collect proof, and decide whether the work can enter release gating.
+
+## Use When
+
+- `$build` finishes an implementation slice, `$fix` returns from remediation, or the user invokes `$check` for QA, review, screenshots, or test validation.
+
+## What To Do
+
+1. Identify the accepted scope, issue-board slice, and latest changed files.
+2. Emit a QA plan before validation: scope under test, risk areas, commands, manual/browser/visual checks, review expectations, and PASS/WARN/BLOCK criteria.
+3. Run the agent QA pass: behavior, regressions, missing tests, security-sensitive changes, user-facing evidence. Smallest meaningful validation first, broaden only when risk or blast radius requires. Apply the Code Quality Bar (Thermo-Nuclear) and run the Deslop Pass below over the accepted scope from step 1 (dirty patch, branch diff, or PR scope under review); both are review/flagging at `$check`, not remediation.
+4. For write-heavy implementation from `$build`/`$fix`, verify handoff evidence before grading: completed Codex receipt, pending Codex receipt, or explicit fallback reason. Not required for planning, review-only, scouting, summarization, browser/system-dialog, credential-gated, doc-only, or trivial single-file inline edits.
+5. Code-changing slice with no RED-then-GREEN evidence and no mechanical-edit or already-tested justification -> grade no higher than `WARN`, route to `$fix`.
+6. Classify the diff before grading: code-changing means source, tests, build config, dependency manifests, scripts, CI, app/runtime config, or generated runtime/build artifacts. Treat unknown classes as code-changing until proven doc-only/non-code. For code-changing, branch, or PR targets, run Codex review per Codex Review Closeout below once reviewable and before final grading.
+7. For frontend/UI changes, require appropriate browser or visual proof before `PASS`.
+8. Classify findings against `~/.codex/skills/references/matt-first-routing.md` before choosing a direct result.
+9. Grade applicable gates/nets from `~/.codex/skills/references/gates-and-nets-production.md`; trigger Trail of Bits helpers for security/API/config diffs, static scan needs, dependency risk, or agentic CI risk.
+10. If OpenSpec is present or the work is OpenSpec-backed, apply `~/.codex/skills/references/openspec-sprintflow.md`: run `OPENSPEC_TELEMETRY=0 openspec validate --all --strict --json` and `OPENSPEC_TELEMETRY=0 openspec status --change <id> --json`; a failed `--strict`, or a `missingDeps`/blocked task marked complete, is a BLOCK. Verify artifact/code drift, and treat expanded `/opsx:verify` as optional advisory evidence only when installed.
+11. For high-risk or unclear validation, Oracle may supplement using `/Users/testadmin/.codex/skills/references/oracle-advisory-escalation.md`; advisory only, never a substitute for tests, `$codex-review`, local verification, `$gate`, or release authority.
+12. When an active goal uses `check-clean`, keep validation transcript-visible: QA plan, exact checks, Codex Review status, and grading evidence for the runtime goal evaluator.
+13. Grade the result as `PASS`, `WARN`, or `BLOCK`. Code Quality Bar presumptive blockers and accepted slop feed `WARN`/`BLOCK` per the Approval Bar mapping below.
+14. Post the `$check` progress comment per the Ticket Comment Cadence in `~/.codex/skills/references/sprintflow-core.md` (the `PASS`/`WARN`/`BLOCK` grade, checks run, Codex Review status), gated not fatal; on missing credentials or Plan Mode surface the exact comment text, set `ticket_comment_blocker`, and continue.
+
+## Code Quality Bar (Thermo-Nuclear)
+
+Review implementation quality, not just correctness, against the full standard in `/Users/testadmin/.codex/skills/check/references/thermo-nuclear-code-quality-review.md` (load and apply it). Be ambitious: hunt behavior-preserving "code-judo" moves that delete whole branches, helpers, modes, or layers and make the change feel inevitable in hindsight. Prefer deleting complexity over rearranging it. Be direct and demanding; do not soften major maintainability issues into nits.
+
+Apply that reference for the standards, primary review questions, what to flag aggressively, and preferred remedies. Treat each presumptive blocker in its Approval Bar (file pushed past 1k lines, ad-hoc branching that tangles a flow, feature checks scattered across shared code, unnecessary abstraction/wrapper/cast churn, canonical-helper duplication or wrong-layer logic, and a visible-but-missed code-judo simplification) as presumptive `WARN`/`BLOCK` unless the author justifies it clearly; route blockers to `$fix`.
+
+## Deslop Pass
+
+Over the accepted scope under review (the dirty patch, branch diff, or PR scope from step 1, not a blind branch-vs-main diff), flag AI-generated slop. At `$check` this is review/flagging by default (check grades, it does not own remediation); actionable slop becomes a finding routed to `$fix`.
+
+Focus areas:
+
+- Extra comments that are unnecessary or inconsistent with local style.
+- Defensive checks or try/catch blocks abnormal for trusted code paths.
+- Casts to `any` used only to bypass type issues.
+- Deeply nested code that should be simplified with early returns.
+- Other patterns inconsistent with the file and surrounding codebase.
+
+Guardrails: keep behavior unchanged unless fixing a clear bug; prefer minimal, focused edits over broad rewrites; keep the slop summary concise (1-3 sentences).
+
+## Ponytail Over-Engineering Pass
+
+Advisory, WARN-only: run `/ponytail-review` (user-typed) or the equivalent over-engineering review on the accepted diff. Surface complexity findings (delete / stdlib / native / yagni / shrink) as WARN-level notes only -- NEVER escalate them to BLOCK. Correctness, security, and multi-tenant `merchant_id` review stay separate and authoritative; ponytail-review is complexity-only.
+
+## Codex Review Closeout
+
+MUST invoke `$codex-review` when `$check` is grading any code-changing work, non-trivial code edits, a dirty patch, a branch, or a PR. Advisory review evidence, not release authority. Run once the smallest useful validation proves the checkout is reviewable, via Bash: `node "$CLAUDE_PLUGIN_ROOT/scripts/codex-companion.mjs" review` or `$codex-review`. `/codex:review` is user-typed only -- do NOT invoke via `Skill(codex:review)` or model-driven SlashCommand (`disable-model-invocation`).
+
+- Code-changing work cannot receive `$check PASS` without Codex Review evidence or an explicit human override. Missing/unresolved/unavailable after the allowed fallback and retry -> grade `WARN` or `BLOCK` with the exact blocker.
+- A code-changing `PASS` must include exactly one status token in Evidence: `Codex Review: clean|fallback-clean|fallback-findings|unresolved|skipped-with-reason`.
+- If `$codex-review` is not exposed by name, do not skip review: load `/Users/testadmin/.codex/skills/codex-review/SKILL.md` and run `/Users/testadmin/.codex/skills/codex-review/scripts/codex-review --timeout-seconds 600` from the target checkout; if that path/helper is missing, report it and use the Subagent Review Fallback when permitted.
+- Run one bounded helper invocation per `$check` (may run `codex review` plus the `codex exec` fallback). If it reports `codex-review unresolved` from a timeout or ambiguous verdict, make exactly one bounded helper retry with the same target and 600s budget. Verdicts: `clean`/`fallback-clean` -> clean review evidence (report any preceding `primary-timeout` in Evidence); `fallback-findings` -> actionable, grade `WARN`/`BLOCK`, route to `$fix`, re-run; unresolved after retry -> stop spinning, report the blocker, and choose one path only: explicit human override accepting missing Codex evidence, user-run interactive `/code-review high`, or Oracle-style advisory review per `/Users/testadmin/.codex/skills/references/oracle-advisory-escalation.md`. Do not run raw `codex review --uncommitted` or a third helper loop after timeout.
+- No review target, verifier-confirmed doc-only/non-code, or clean `main` -> record `Codex Review: skipped-with-reason` with the reason (never use the doc-only skip for code-changing files). Report rejected/deferred findings briefly.
+- Do not let Oracle or `$codex-review` bypass tests, visual proof, Matt-first routing, `$gate`, `$land`, or `$close`.
+
+## Workflow Review Escalation
+
+When invoking the review workflow, pass args `{ ticket, changedFiles, diffCmd, uiChange (true for frontend/UI scope), securityTouch, merchantIdTouch, releaseBound }`.
+
+`$check` invocation is Workflow opt-in. Auto-invoke a review workflow when scope is non-trivial (>3 changed files, security/auth/data-touching, multi-tenant `merchant_id` paths, or release-bound): per-cluster scans on Haiku, security probe and PASS/WARN/BLOCK judge on Opus (effort high), independent review on the Codex lane (`codex-companion.mjs review`) with an Opus High fallback, and security/auth/data or multi-tenant `merchant_id` findings cleared by the Opus orchestrator inline (no in-workflow model clears release/security risk). Only verified findings enter grading; it supplements but never replaces the mandatory Codex Review, visual proof, or Matt-first routing. Trivial scope (<=2 files, mechanical) skips it for the single-subagent fallback. Report `Workflow Review: run|skipped + reason` in Evidence.
+
+## Subagent Review Fallback
+
+Use only after the required Codex Review helper is missing, fails to start, or the one bounded Codex Review retry still reports `codex-review unresolved`.
+
+- Spawn one read-only native subagent review (`model: 'opus', effort: 'high'`; route any security/auth/data or multi-tenant `merchant_id` verdict to the Opus orchestrator inline) when subagents are available and permitted: review the dirty patch, branch diff, or PR scope, do not edit files, return actionable findings with severity and exact file/line refs. Continue local validation meanwhile; do not rerun Codex Review just because it is running.
+- Accepted actionable issues -> grade `WARN`/`BLOCK`, route to `$fix`. No blocking issues + otherwise-clean validation -> the unresolved helper remains residual risk; grade no higher than `WARN` unless the user explicitly accepts the fallback as sufficient. Subagents unavailable/not permitted -> report `Subagent Review: unavailable/not permitted` and keep the unresolved/missing-helper result as `WARN`.
+- Final evidence must name `Codex Review` status and `Subagent Review` status separately.
+
+## Route To Matt Skills
+
+MUST invoke the matching Matt helper when its trigger fits:
+
+- `$diagnose`/`$debug` for broken harnesses, flaky baselines, unclear or repeated failures.
+- `$improve-codebase-architecture` when validation exposes module-boundary, locality, or test-seam friction.
+- `$tdd`/`$fix` when a missing regression test should lock the remediation.
+- `$codex-review` for code-changing, branch, or PR targets before final grading.
+
+## Cursor overflow (Codex unavailable)
+
+When Claude Code and Codex are rate-limited in Cursor:
+
+- Parent stays on **Auto**; gather `git diff` + changed file contents first.
+- **MUST** `Task(subagent_type: thermo-nuclear-review-subagent)` — GPT-5.5 via user agent override at `~/.cursor/agents/thermo-nuclear-review-subagent.md`.
+- Thermos replaces Codex review per `~/.cursor/rules/review-gates.mdc`; hooks auto-continue spine after review via `followup_message`.
+- Record the thermo-nuclear review delegate/model internally; surface it only when parser-safe output or routing internals are explicitly requested.
+
+## Stop Conditions
+
+- Do not make final release/security decisions; `$gate` owns that boundary.
+- Do not move tickets to `Done`; `$close` owns completion.
+- If evidence is missing but actionable, grade `WARN` and route to `$fix`.
+- Do not clear a goal merely because checks were attempted. `check-clean` requires `PASS` with required proof; actionable `WARN/BLOCK` -> `$fix`, unclear proof -> `$debug`.
+
+## Output
+
+Compact Markdown:
+
+- `Summary`: ticket/scope, risk, goal profile when active, and `PASS`, `WARN`, or `BLOCK`.
+- `QA Plan`: scope under test, risk areas, commands, manual/visual checks, grading criteria.
+- `Evidence`: agent QA result, diff classification (`code-changing` or `doc-only/non-code`), commands/checks run, Codex delegation receipt or fallback reason when required, Codex Review command or skip reason, Code Quality Bar result, Deslop Pass result, important results.
+- `Ticket Comment`: posted check progress note (grade plus Codex Review status), or the deferred comment text plus `ticket_comment_blocker`.
+- `Findings`: actionable findings (each with `id`, `severity`, `file:line`, one-line `summary`, and `source` as `codex-review|thermo|deslop|workflow`), mandatory Matt trigger decision when present, and accepted WARN/residual items under `Residual Risks`.
+- `Next`: use `~/.codex/skills/references/next-skill-router.md`; include only `Next`, `Why`, `Evidence`, `Alternatives`, and real blockers by default. Keep lane/model/agent/session fields internal unless parser-safe output or routing internals are explicitly requested. `PASS -> $gate`, actionable `WARN/BLOCK -> $fix`, unclear failures -> `$debug`.

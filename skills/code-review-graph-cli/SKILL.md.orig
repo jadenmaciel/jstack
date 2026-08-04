@@ -1,0 +1,138 @@
+---
+name: code-review-graph-cli
+description: |
+  Local code intelligence and review workflows via the `code-review-graph` CLI (`uvx code-review-graph`).
+  Use for graph build/update, change-impact detection, repo registration, wiki/visualization generation,
+  and benchmark evaluation from shell commands.
+  Trigger when user asks to run code-review-graph workflows from CLI instead of MCP.
+allowed-tools:
+  - Bash(uvx code-review-graph *)
+---
+
+# code-review-graph CLI
+
+Use `uvx code-review-graph` for graph lifecycle and change-analysis workflows.
+
+## Prerequisites
+
+```bash
+uvx code-review-graph --help
+```
+
+Optional (for local install instead of `uvx`):
+
+```bash
+pipx install code-review-graph
+code-review-graph --help
+```
+
+## Core Commands
+
+### Build / Update Graph
+
+```bash
+# Full rebuild
+uvx code-review-graph build --repo /abs/path/to/repo
+
+# Incremental update (default base: HEAD~1)
+uvx code-review-graph update --repo /abs/path/to/repo --base HEAD~1
+
+# Faster update without flow/community work
+uvx code-review-graph update --repo /abs/path/to/repo --skip-flows
+```
+
+### Change Analysis
+
+```bash
+# Full change analysis
+uvx code-review-graph detect-changes --repo /abs/path/to/repo --base HEAD~1
+
+# Brief summary output
+uvx code-review-graph detect-changes --repo /abs/path/to/repo --brief
+```
+
+### Status / Postprocess
+
+```bash
+# Graph stats and health
+uvx code-review-graph status --repo /abs/path/to/repo
+
+# Recompute postprocess artifacts on existing graph
+uvx code-review-graph postprocess --repo /abs/path/to/repo
+
+# Targeted postprocess run
+uvx code-review-graph postprocess --repo /abs/path/to/repo --no-fts
+```
+
+### Visualization / Wiki
+
+```bash
+# Generate interactive HTML graph
+uvx code-review-graph visualize --repo /abs/path/to/repo --format html
+
+# Serve visualization locally (localhost:8765)
+uvx code-review-graph visualize --repo /abs/path/to/repo --serve
+
+# Generate architecture/community wiki pages
+uvx code-review-graph wiki --repo /abs/path/to/repo
+```
+
+### Multi-Repo Registry
+
+```bash
+# Register repo with optional alias
+uvx code-review-graph register /abs/path/to/repo --alias myrepo
+
+# List registered repos
+uvx code-review-graph repos
+
+# Remove by alias or path
+uvx code-review-graph unregister myrepo
+```
+
+### Continuous / Evaluation
+
+```bash
+# Watch repo and auto-update graph
+uvx code-review-graph watch --repo /abs/path/to/repo
+
+# Run all benchmark suites
+uvx code-review-graph eval --all
+
+# Run selected benchmarks
+uvx code-review-graph eval --benchmark token_efficiency,impact_accuracy
+```
+
+## MCP Tool Coverage Mapping
+
+The CLI currently exposes these top-level workflows directly:
+- `build`, `update`, `postprocess`, `status`, `detect-changes`, `visualize`, `wiki`, `watch`, `register`, `unregister`, `repos`, `eval`, `serve`
+
+Some MCP tools do not currently have a one-command CLI equivalent (for example `query_graph_tool`, `get_review_context_tool`, `get_impact_radius_tool`, `refactor_tool`, `apply_refactor_tool`, `semantic_search_nodes_tool`).
+
+Use the MCP surface when you need those fine-grained graph queries/refactors.
+
+## Most Common Recipes
+
+```bash
+# 1) First-time setup for a repo
+uvx code-review-graph build --repo /abs/path/to/repo
+uvx code-review-graph status --repo /abs/path/to/repo
+
+# 2) Review the latest diff quickly
+uvx code-review-graph update --repo /abs/path/to/repo --base HEAD~1
+uvx code-review-graph detect-changes --repo /abs/path/to/repo --base HEAD~1 --brief
+
+# 3) Generate docs artifacts for architecture review
+uvx code-review-graph wiki --repo /abs/path/to/repo
+uvx code-review-graph visualize --repo /abs/path/to/repo --format html
+```
+
+## Troubleshooting
+
+- `No graph found` or empty status:
+  - Run `uvx code-review-graph build --repo /abs/path/to/repo` first.
+- `fatal: bad revision 'HEAD~1'`:
+  - Use a valid base: `--base HEAD` or a concrete commit SHA.
+- Wrong repository analyzed:
+  - Always pass `--repo /abs/path/to/repo` to avoid cwd ambiguity.

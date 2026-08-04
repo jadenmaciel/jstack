@@ -1,0 +1,6 @@
+interface:
+  display_name: "Epayment Start"
+  short_description: "Inspect one TROUT ticket and existing work"
+  default_prompt: "Use $epayment-start to inspect this TROUT ticket and existing work."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Camoufox Agent Browser"
+  short_description: "Operate Camoufox safely through AI agents"
+  default_prompt: "Use $camoufox to complete this authorized browser task with an observe-act-verify loop."

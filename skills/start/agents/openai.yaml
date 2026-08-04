@@ -1,0 +1,6 @@
+interface:
+  display_name: "Start"
+  short_description: "Inspect a ticket and existing work first"
+  default_prompt: "Use $start to inspect this ticket and any existing work."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Epayment Devtest"
+  short_description: "Prove one epayment PR branch on the dev box"
+  default_prompt: "Use $epayment-devtest to prove this epayment branch end to end."
+policy:
+  allow_implicit_invocation: false

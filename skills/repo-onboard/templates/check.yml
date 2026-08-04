@@ -1,0 +1,13 @@
+name: check
+
+on:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run repo check
+        run: |
+          echo "TODO: replace with this repo's real check command (make check / pnpm check / etc.)" && exit 1

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Close"
+  short_description: "Finish one normal ticket as Done"
+  default_prompt: "Use $close to finish this normal ticket after clean evidence."
+policy:
+  allow_implicit_invocation: false

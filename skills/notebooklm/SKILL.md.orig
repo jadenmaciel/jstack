@@ -1,0 +1,204 @@
+---
+name: notebooklm
+description: "Complete API for Google NotebookLM, including features not in the web UI: create notebooks, add sources, generate all artifact types, download in multiple formats. Activates on /notebooklm or intent like \"create a podcast about X\"."
+---
+<!-- notebooklm-py v0.3.4 -->
+
+# NotebookLM Automation
+
+Sources accepted: URLs, YouTube, PDFs, audio, video, images. Chat, generate all artifact types, download in multiple formats.
+
+## Install
+
+```bash
+pip install notebooklm-py                     # PyPI (recommended)
+# GitHub: use latest release tag, NOT main (unreleased/unstable):
+LATEST_TAG=$(curl -s https://api.github.com/repos/teng-lin/notebooklm-py/releases/latest | grep '"tag_name"' | cut -d'"' -f4)
+pip install "git+https://github.com/teng-lin/notebooklm-py@${LATEST_TAG}"
+notebooklm skill install                      # install Claude Code skill
+```
+Do NOT `pip install git+https://github.com/teng-lin/notebooklm-py` (bare main branch).
+
+## Auth (required before any command)
+
+```bash
+notebooklm login          # browser Google OAuth
+notebooklm list           # verify
+```
+On auth errors re-run `notebooklm login`. Readiness: `notebooklm status` → "Authenticated as: email@..."; `notebooklm list --json` → valid JSON (empty ok); else `notebooklm login`.
+
+### CI/CD, multiple accounts, parallel agents
+- `NOTEBOOKLM_HOME` — config dir (default `~/.notebooklm`). Unique per account; per-agent: `export NOTEBOOKLM_HOME=/tmp/agent-$ID`.
+- `NOTEBOOKLM_AUTH_JSON` — inline auth JSON, no file writes. CI/CD: set from a secret holding your `storage_state.json` contents.
+- CLI stores context in shared `~/.notebooklm/context.json`; concurrent agents using `notebooklm use` overwrite each other. In parallel pass explicit ID via `-n <notebook_id>` (for `wait`/`download`) or `--notebook <notebook_id>` (others) instead of `use`; prefer full UUIDs (partial IDs can become ambiguous).
+
+## Autonomy
+
+**Run automatically (no confirm):** `status`, `auth check`, `list`, `source list`, `artifact list`, `language list/get/set` (set is global), `research status`, `history` (read-only), `use <id>` (⚠️ single-agent only — use `-n` in parallel), `create`, `ask "..."` (without `--save-as-note`), `source add`. In a subagent also: `artifact wait`, `source wait`, `research wait`.
+
+**Ask first:** `notebooklm delete` (destructive); `generate *` (long-running, may fail); `download *` (writes files); `artifact wait`/`source wait`/`research wait` in main conversation (long-running); `ask "..." --save-as-note` and `history --save` (write a note).
+
+## Command Reference
+
+| Task | Command |
+|------|---------|
+| Authenticate | `notebooklm login` |
+| Diagnose auth / full | `notebooklm auth check` / `notebooklm auth check --test` |
+| List notebooks | `notebooklm list` |
+| Create notebook | `notebooklm create "Title"` |
+| Set context (single-agent) | `notebooklm use <notebook_id>` |
+| Show context | `notebooklm status` |
+| Add source (URL/file/YouTube) | `notebooklm source add "https://..."` \| `./file.pdf` \| `"https://youtube.com/..."` |
+| List sources | `notebooklm source list` |
+| Delete source by ID / exact title | `notebooklm source delete <source_id>` / `notebooklm source delete-by-title "Exact Title"` |
+| Wait for source | `notebooklm source wait <source_id>` |
+| Web research fast / deep | `notebooklm source add-research "query"` / `... --mode deep --no-wait` |
+| Research status / wait | `notebooklm research status` / `notebooklm research wait --import-all` |
+| Chat | `notebooklm ask "question"` |
+| Chat: sources / refs / note / note+title | `... -s src_id1 -s src_id2` / `... --json` / `... --save-as-note` / `... --save-as-note --note-title "Title"` |
+| Continue a conversation | `notebooklm ask "question" -c <conversation_id>` |
+| History / save / save+title | `notebooklm history` / `... --save` / `... --save --note-title "My Research"` |
+| Source fulltext / guide | `notebooklm source fulltext <source_id>` / `notebooklm source guide <source_id>` |
+| Generate podcast / JSON / sources | `notebooklm generate audio "instructions"` / `... --json` / `... -s src_id1 -s src_id2` |
+| Generate video | `notebooklm generate video "instructions"` |
+| Generate report / append | `notebooklm generate report --format briefing-doc` / `... --format study-guide --append "Target audience: beginners"` |
+| Generate quiz | `notebooklm generate quiz` |
+| Revise a slide | `notebooklm generate revise-slide "prompt" --artifact <id> --slide 0` |
+| Artifact status / wait | `notebooklm artifact list` / `notebooklm artifact wait <artifact_id>` |
+| Download audio / video | `notebooklm download audio ./output.mp3` / `notebooklm download video ./output.mp4` |
+| Download slide-deck PDF / PPTX | `notebooklm download slide-deck ./slides.pdf` / `... ./slides.pptx --format pptx` |
+| Download report / mind-map / data-table | `... report ./report.md` / `... mind-map ./map.json` / `... data-table ./data.csv` |
+| Download quiz / markdown | `notebooklm download quiz quiz.json` / `... quiz --format markdown quiz.md` |
+| Download flashcards / markdown | `notebooklm download flashcards cards.json` / `... flashcards --format markdown cards.md` |
+| Delete notebook | `notebooklm notebook delete <id>` |
+| Languages list/get/set | `notebooklm language list` / `notebooklm language get` / `notebooklm language set zh_Hans` |
+
+**Parallel safety:** use explicit notebook IDs. `-n` shorthand: `artifact wait`, `source wait`, `research wait/status`, `download *`. Downloads also take `-a/--artifact`. Others use `--notebook`. Chat uses `-c <conversation_id>`.
+
+**Partial IDs:** first 6+ characters of a UUID; must be a unique prefix (fails if ambiguous). Works for ID commands (`use`, `source delete`, `wait`). Exact-title delete: `source delete-by-title "Title"`. Automation: prefer full UUIDs.
+
+## JSON Output
+
+`--json` gives parseable data; extract `id`/`source_id`/`task_id`.
+```
+create "R" --json         → {"id":"abc123de-...","title":"Research"}
+source add "url" --json   → {"source_id":"def456...","title":"Example","status":"processing"}
+generate audio "x" --json → {"task_id":"xyz789...","status":"pending"}
+ask "What is X?" --json   → {"answer":"X is... [1] [2]","conversation_id":"...","turn_number":1,"is_follow_up":false,"references":[{"source_id":"abc123...","citation_number":1,"cited_text":"..."}]}
+source fulltext <id> --json → {"source_id":"...","title":"...","char_count":12345,"content":"..."}
+list --json               → {"notebooks":[{"id":"...","title":"...","created_at":"..."}]}
+auth check --json         → {"checks":{"storage_exists":true,"json_valid":true,"cookies_present":true,"sid_cookie":true,"token_fetch":true},"details":{"storage_path":"...","auth_source":"file","cookies_found":["SID","HSID","..."],"cookie_domains":[".google.com"]}}
+source list --json        → {"sources":[{"id":"...","title":"...","status":"ready|processing|error"}]}
+artifact list --json      → {"artifacts":[{"id":"...","title":"...","type":"Audio Overview","status":"in_progress|pending|completed|unknown"}]}
+```
+Status: sources `processing`→`ready` (or `error`); artifacts `pending`/`in_progress`→`completed` (or `unknown`).
+
+**Citations:** `cited_text` is often a snippet/header, not the full passage; `start_char`/`end_char` index NotebookLM's internal chunks, not raw fulltext. Locate with `find_citation_context()`:
+```python
+fulltext = await client.sources.get_fulltext(notebook_id, ref.source_id)
+matches = fulltext.find_citation_context(ref.cited_text)  # list[(context, position)]
+if matches:
+    context, pos = matches[0]  # check len(matches) > 1 for duplicates
+```
+
+## Features Beyond the Web UI
+
+CLI-only vs the web UI: batch `download <type> --all`; quiz/flashcard `download quiz --format json` (JSON/Markdown/HTML, UI interactive-only); `download mind-map` (JSON); `download data-table` (CSV); `download slide-deck --format pptx` (UI = PDF only); `generate revise-slide "prompt" --artifact <id> --slide N`; `generate report --format study-guide --append "..."` (keeps format type); `source fulltext <id>` (indexed text of any source); save chat to note `ask "..." --save-as-note` / `history --save`; programmatic `share` commands.
+
+## Workflows
+
+**Research → podcast (interactive, 5-10 min):** `create "Research: [topic]"` (fail → `notebooklm login`) → `source add` each URL/doc (one fails → warn, continue) → wait until all `source list --json` status=READY (required) → `generate audio "Focus on [angle]"` (confirm; rate-limited → wait 5 min, retry once) → note artifact ID → check `artifact list` → `download audio ./podcast.mp3` when complete.
+
+**Automated podcast (subagent, background):** create + add + wait sources → `generate audio "..." --json` (parse artifact_id) → spawn:
+```
+Task(prompt="Wait for artifact {artifact_id} in notebook {notebook_id}, then download.
+  notebooklm artifact wait {artifact_id} -n {notebook_id} --timeout 600
+  notebooklm download audio ./podcast.mp3 -a {artifact_id} -n {notebook_id}",
+  subagent_type="general-purpose")
+```
+Main conversation continues. Subagent errors: `artifact wait` exit 2 (timeout) → report, suggest `artifact list`; download fails → verify status COMPLETED first.
+
+**Bulk import + source wait (subagent):** `source add "url" --json` per source (capture `source_id`) → spawn:
+```
+Task(prompt="Wait for sources {source_ids} in notebook {notebook_id}.
+  Each: notebooklm source wait {id} -n {notebook_id} --timeout 120
+  Report when all ready or if any fail.", subagent_type="general-purpose")
+```
+Sources must index (10-60s each) before chat/generation.
+
+**Deep web research (subagent, 2-5 min):** `create "Research: [topic]"` → `notebooklm source add-research "topic query" --mode deep --no-wait` → spawn:
+```
+Task(prompt="Wait for research in notebook {notebook_id} and import.
+  notebooklm research wait -n {notebook_id} --import-all --timeout 300
+  Report how many imported.", subagent_type="general-purpose")
+```
+Blocking alt: `notebooklm source add-research "topic" --mode deep --import-all` (blocks up to 5 min).
+Modes: `--mode fast` (specific, 5-10 sources, seconds); `--mode deep` (broad, 20+ sources, 2-5 min). Sources: `--from web` (default), `--from drive` (Google Drive).
+
+## Output Style
+
+Brief progress per step ("Creating notebook...", "Starting audio generation... (task ID: abc123)"). Fire-and-forget long ops: start, return artifact ID immediately, do NOT poll/wait in main conversation (generation 5-45 min); user checks manually or use subagent `artifact wait`.
+
+## Errors
+
+On failure offer: retry / skip / investigate.
+
+| Error | Cause | Action |
+|-------|-------|--------|
+| Auth/cookie error | Session expired | `notebooklm auth check` then `notebooklm login` |
+| "No notebook context" | Context unset | `-n <id>`/`--notebook <id>` (parallel) or `notebooklm use <id>` (single-agent) |
+| "No result found for RPC ID" | Rate limiting | Wait 5-10 min, retry |
+| `GENERATION_FAILED` | Google rate limit | Wait, retry later |
+| Download fails | Generation incomplete | Check `artifact list` |
+| Invalid notebook/source ID | Wrong ID | `notebooklm list` to verify |
+| RPC protocol error | Google changed APIs | May need CLI update |
+
+**Exit codes:** `0` success (continue); `1` error/not-found/processing-failed (check stderr); `2` timeout (wait commands only — extend timeout or check status). E.g. `source wait`→1 if not found/failed; `artifact wait`→2 if timeout; `generate`→1 if rate limited.
+
+## Limitations & Timing
+
+Rate limiting (Google API limit, not a bug) may fail audio, video, quiz, flashcards, infographic, slide-deck generation. Reliable: notebooks (list/create/delete/rename), sources (add/list/delete), chat, mind-map/study-guide/report/data-table. On failure: check `artifact list`, retry after 5-10 min, fall back to web UI.
+
+| Operation | Typical | Timeout |
+|-----------|---------|---------|
+| Source processing | 30s-10min | 600s |
+| Research fast | 30s-2min | 180s |
+| Research deep | 15-30+min | 1800s |
+| Notes / Mind-map | instant | n/a |
+| Quiz, flashcards | 5-15min | 900s |
+| Report, data-table | 5-15min | 900s |
+| Audio | 10-20min | 1200s |
+| Video | 15-45min | 2700s |
+
+Poll every 15-30s when checking manually.
+
+## Language
+
+GLOBAL account setting controlling generated-artifact output language.
+```bash
+notebooklm language list        # 80+ languages, native names
+notebooklm language get
+notebooklm language set zh_Hans  # Simplified Chinese; also ja, en (default), etc.
+```
+Codes: `en` English, `zh_Hans` 中文（简体） Simplified Chinese, `zh_Hant` 中文（繁體） Traditional Chinese, `ja` 日本語 Japanese, `ko` 한국어 Korean, `es` Español, `fr` Français, `de` Deutsch, `pt_BR` Português (Brasil).
+Per-command override: `notebooklm generate audio --language ja`, `notebooklm generate video --language zh_Hans`.
+Offline: `notebooklm language set zh_Hans --local` (save locally), `notebooklm language get --local` (read local only).
+
+## Troubleshooting
+
+```bash
+notebooklm --help          # main (also notebook/source/research/generate/artifact/download/language --help)
+notebooklm auth check      # cookie domains, storage path, validation
+notebooklm auth check --test  # full validation with network test
+notebooklm login           # re-authenticate
+notebooklm --version       # check version
+notebooklm skill install   # update skill
+```
+
+## Research Handoff (local addition — keep when vendor skill updates)
+
+Research runs (deep-research or ad-hoc) publish into per-project notebooks so Claude Code and Codex share one corpus instead of re-researching.
+
+- Publish: `"$HOME/.codex/skills/notebooklm/scripts/publish.sh" .research/<slug> [--notebook <id>] [--dry-run] [--max N] [--no-report]` — resolves/creates `<Project> — Research` notebook (cache `.research/<slug>/notebook_id` -> title match -> create), adds evidence URLs deduped + throttled, uploads report.md as text source. Best-effort, always exits 0.
+- Consume: user says "ask my notebook X" / "check the notebook" -> `notebooklm list --json`, fuzzy-match title, `notebooklm ask -n <full-id> "<question>"` (no `--new` in 0.4.1). Always `-n <id>`, never `use` (shared context clobbers parallel sessions).
+- Never send Obsidian wiki content, secrets, or client/private material (script refuses `~/Development/Obsidian`; ask first for work dirs, default `--no-report`). Never run `login` unattended.

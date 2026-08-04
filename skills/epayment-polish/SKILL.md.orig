@@ -1,0 +1,31 @@
+---
+name: epayment-polish
+description: "De-fluffs a draft epayment PR and triple-reviews it with Claude, Codex, and CodeRabbit before it's marked ready. Use to polish, de-fluff, slim, or final-review a draft epayment PR, or to check whether a PR is good to mark ready."
+---
+
+# Epayment Polish
+
+Final pass on a draft epayment PR: cut fluff from the description, ponytail the diff, run the triple review, report findings or a clean verdict. The ready-for-review click stays human-owned.
+
+## Steps
+
+1. Load `/Users/testadmin/.codex/skills/references/epayment-sprintflow.md`; apply Guided Mode from that reference when triggered.
+2. Resolve the PR with `epayment-gh pr view --json number,url,state,isDraft,baseRefName,headRefName,headRefOid,title,body,files`. Proceed only when it is open, draft, and based on `develop`.
+3. De-fluff the title and body to the Outward-Facing Text rules with a `stop-slop` pass, then update via `epayment-gh pr edit`. Done when the body is a few short sentences with no boilerplate sections or AI tells.
+4. Ponytail the diff: cut code the change does not need — speculative abstraction, dead branches, comments restating the code, unneeded dependencies. Never cut trust-boundary validation, `merchant_id` scoping, security, or data-loss handling. If code changed: `php -l` each file, run focused tests when available, commit with the TROUT key, push. Done when the diff is the minimum that keeps behavior, or you state that no reduction was found.
+5. Triple review of the full PR diff against `develop`:
+   - Claude: the Claude Code `/code-review` skill at high effort, no `--comment`.
+   - Codex: `~/.codex/skills/codex-review/scripts/codex-review --timeout-seconds 600 --reasoning-effort xhigh --mode auto`.
+   - CodeRabbit: `coderabbit review --light -t committed --base develop` (`coderabbit review findings` re-reads the last run free). Rate-limit or free-tier fallback is expected and advisory — note it and continue.
+   Done when Claude and Codex verdicts are in hand and CodeRabbit has run or been noted as limited.
+6. Dedupe findings across the three lanes and drop pure style noise. Report survivors with `file:line` and which reviewers flagged each — do not auto-fix.
+7. Verdict: findings exist — list them and stop for the user. Zero findings — state the PR is clean and good for the user to mark ready for review.
+8. In Guided Mode, explain review findings, simplifications, remaining risks, and why the PR is or is not ready.
+
+## Stop Conditions
+
+- PR non-draft, merged, or closed; denied path; a ponytail cut that would touch validation, tenant scope, or security; any request to mark ready for review, merge, or deploy.
+
+## Output
+
+Use concise Markdown: `Summary`, `PR`, `Reviews`, `Findings`, `Guided Notes` when triggered, `Verdict`.

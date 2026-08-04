@@ -1,0 +1,6 @@
+interface:
+  display_name: "Cycle"
+  short_description: "Drive one task to a green, merge-ready PR"
+  default_prompt: "Use $cycle to implement this task on a new branch and drive its PR to green."
+policy:
+  allow_implicit_invocation: false

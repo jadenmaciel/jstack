@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cursor Cloud Dispatch"
+  short_description: "Dispatch and supervise Cursor Cloud work"
+  default_prompt: "Use $cursor-cloud-dispatch to send a bounded task to Cursor Cloud and supervise it through a draft PR."
