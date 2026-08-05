@@ -13,11 +13,11 @@ Mandatory epayment validation. Load the epayment guardrails and the generic qual
 
 ## Unique actions
 
-1. Run `~/.codex/bin/sprintflow-scope.mjs assert-epayment` with the TROUT ticket, repository, and branch; stop on any nonzero result.
+1. Run `~/.cursor/bin/sprintflow-scope.mjs assert-epayment` with the TROUT ticket, repository, and branch; stop on any nonzero result.
 2. Emit a short `QA Plan`; classify the diff and run focused PHP/test/UI proof.
 3. Check `merchant_id` boundaries, authorization, parameterized SQL, and migration/config/`DatabaseTestCase` parity.
 4. Apply the generic quality bar.
-5. Fingerprint the exact tree with `~/.codex/bin/sprintflow-evidence.mjs`.
+5. Fingerprint the exact tree with `~/.cursor/bin/sprintflow-evidence.mjs`.
 6. Reuse exact receipts or launch, in parallel, one non-session Claude Fable High review and one Codex High review against that tree. The current orchestrator counts as neither reviewer. Record separate `claude-fable-high` and `codex-high` receipts.
 7. Run each mandatory reviewer once—no retry, polling, or substitute reviewer. Unavailable, findings, unresolved, or mismatched evidence blocks.
 8. If CodeRabbit is already installed and authenticated, make one opportunistic attempt. Otherwise record a non-blocking skip; do not install or log in.
@@ -30,4 +30,4 @@ Mandatory epayment validation. Load the epayment guardrails and the generic qual
 
 ## Next route
 
-Clean: `$epayment-pr`. Clear correction: `$implement`. Unclear failure: `$diagnosing-bugs`. Stop.
+Clean: `/epayment-pr`. Clear correction: `/implement`. Unclear failure: `/diagnosing-bugs`. Stop.

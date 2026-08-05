@@ -3,7 +3,7 @@ name: notebooklm-setup
 description: "Seed a project's NotebookLM corpus: create/reuse the project notebook, ingest docs, specs, research, and key URLs, then wire project docs to reference it. Use when the user wants NotebookLM set up for a project, asks to ingest a repo/project into NotebookLM, or says 'seed the corpus'."
 allowed-tools:
   - Bash(notebooklm *)
-  - Bash(bash /Users/testadmin/.codex/skills/notebooklm/scripts/*)
+  - Bash(bash /Users/testadmin/.cursor/skills/notebooklm/scripts/*)
   - Bash(git *)
   - Bash(jq *)
   - Bash(rg *)
@@ -18,7 +18,7 @@ allowed-tools:
 
 # NotebookLM Project Setup
 
-Seed one notebook per project so both agents query the corpus instead of re-reading the repo or re-researching. CLI reference, auth troubleshooting, parallel-safety rules: `~/.codex/skills/notebooklm/SKILL.md`. Always pass `-n <full notebook id>`; never `use`.
+Seed one notebook per project so both agents query the corpus instead of re-reading the repo or re-researching. CLI reference, auth troubleshooting, parallel-safety rules: `~/.cursor/skills/notebooklm/SKILL.md`. Always pass `-n <full notebook id>`; never `use`.
 
 ## Steps
 
@@ -59,7 +59,7 @@ Done when: every planned source passed the gate or was dropped with a reason.
 
 - Files: `notebooklm source add <path> -n <id> --title "<repo-relative-path>"` (md/txt upload as text sources).
 - URLs: `notebooklm source add <url> -n <id>`.
-- `.research/` dirs: `bash ~/.codex/skills/notebooklm/scripts/publish.sh <dir> --notebook <id>` (handles dedupe, throttle, report).
+- `.research/` dirs: `bash ~/.cursor/skills/notebooklm/scripts/publish.sh <dir> --notebook <id>` (handles dedupe, throttle, report).
 - `sleep 2` between manual adds; a failed source is one warning, keep going; a rate-limit error ("No result found for RPC ID") stops the run — report progress, do not retry-storm.
 
 Done when: every planned source is added or individually warned, final count reported against the plan.

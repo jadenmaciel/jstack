@@ -30,7 +30,7 @@ Create visually readable, standalone HTML files for agent outputs that humans ne
    - Make the layout responsive, print-friendly, and accessible: readable contrast, visible focus states, and text that does not overflow.
 
 5. **Verify before claiming standalone completion.**
-   - Run `deno run --allow-read ~/.codex/skills/html-artifact/scripts/verify-standalone.ts <html-path> [...html-path]`. It must pass before claiming a direct-open artifact is standalone.
+   - Run `deno run --allow-read ~/.cursor/skills/html-artifact/scripts/verify-standalone.ts <html-path> [...html-path]`. It must pass before claiming a direct-open artifact is standalone.
    - The verifier rejects stylesheet links and script `src` dependencies, and requires a substantial inline style block plus basic document markers. Do not bypass it unless the user explicitly requests a multi-file bundle.
    - Open the generated file locally with Browser, Playwright, or browser-harness.
    - Capture at least one desktop screenshot and one narrow/mobile screenshot.
@@ -55,6 +55,6 @@ Read `references/patterns.md` when choosing whether HTML is appropriate, selecti
 
 ## Next Skill Decision
 
-Read `~/.codex/skills/references/next-skill-router.md` before final output when choosing the next handoff. End with a compact `Next` section by default; use `NEXT_SKILL_DECISION` only when parser-safe output is explicitly requested.
+Read `~/.cursor/skills/references/next-skill-router.md` before final output when choosing the next handoff. End with a compact `Next` section by default; use `NEXT_SKILL_DECISION` only when parser-safe output is explicitly requested.
 
 Default helper routing: return to the invoking skill when the artifact is complete; recommend `$check` after changes that need validation, `$diagnosing-bugs` when browser/runtime root cause is unclear, or `$close` when normal ticket completion is the only remaining work. Do not invoke the recommendation.

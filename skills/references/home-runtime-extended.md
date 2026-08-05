@@ -83,19 +83,25 @@ Entry: `$cross-agent-router`.
 - Cap review ping-pong at two exchanges, then integrate or escalate.
 - Do not send secrets/credentials/customer/regulated/private data to Oracle or
   cross-agent prompts without explicit authorization of that exact bundle.
-- Oracle: `~/.codex/skills/references/oracle-advisory-escalation.md`.
+- Oracle: `~/.cursor/skills/references/oracle-advisory-escalation.md`.
 
 ## Skills And SprintFlow
 
-- Live skill root: `~/.codex/skills`. `$skill` loads that skill body.
-- Daily loop: `$start → $implement → $check → ($fix → $check)* → $pr → $gate
-  → $land → $close`. The check/fix loop repeats only while progress continues.
-  Router: `~/.codex/sprintflow-backend.json`.
-  Human docs `~/Desktop/sprintflow.html` are not routing input.
-- `$grill-with-docs` = `$start` helper. Workflow output is evidence/plan input
-  only — never replaces local verification or release authority.
-- Production readiness: `~/.codex/skills/references/gates-and-nets-production.md`
-  + `~/.codex/skills/references/next-skill-router.md`.
+- Live skill root: `~/.cursor/skills`. `$skill` loads that skill body.
+- OpenSpec is the default spine. Contract:
+  `~/.cursor/skills/references/sprintflow-core.md`. Next table:
+  `~/.cursor/skills/references/next-skill-router.md`.
+- Daily loops: OpenSpec
+  (`/opsx:explore → $grill-with-docs → /opsx:propose → /opsx:apply → $check →
+  $pr → $land → $close → /opsx:archive`) or small
+  (`$implement → $check → ($fix → $check)* → $pr → $land → $close`).
+  Registry: `~/.cursor/sprintflow-backend.json`.
+  HTML snapshot: `~/Documents/Web Artifacts/sprintflow.html` (not routing input).
+- `$grill-with-docs` locks decisions/ADRs before propose. Workflow output is
+  evidence/plan input only — never replaces local verification or release
+  authority.
+- Production readiness: `~/.cursor/skills/references/gates-and-nets-production.md`
+  + `~/.cursor/skills/references/next-skill-router.md`.
 - Helpers/subagents rejoin main before `$gate` / `$land` / `$close` / final claims.
 
 ## Native Goals And Inbox
@@ -113,16 +119,16 @@ Entry: `$cross-agent-router`.
 - Containers: Apple `container` first; docker/Colima only for compose or
   repo-mandated docker. `sandbox_mode` in config.toml = Seatbelt, unrelated.
 - Composio-first for Gmail/Drive/Jira/Linear/Figma/Cloudflare/etc.
-  Skill: `~/.codex/skills/composio-cli/SKILL.md`. Binary:
+  Skill: `~/.cursor/skills/composio-cli/SKILL.md`. Binary:
   `~/.composio/composio`. Missing link → stop at `composio link` unless user
   authorizes login.
 - Native beats Composio when better: `$firecrawl`, Browser, Computer Use,
   XcodeBuildMCP, Firebase, RevenueCat, App Store, NotebookLM. TinyFish only when
   explicitly requested or Firecrawl unavailable.
 - Research: NotebookLM corpus check before re-research; publish via
-  `~/.codex/skills/notebooklm/scripts/publish.sh .research/<slug>` (best-effort).
+  `~/.cursor/skills/notebooklm/scripts/publish.sh .research/<slug>` (best-effort).
 - Docs: Context7 plugin/MCP first; CLI skill at
-  `~/.codex/skills/context7-cli/SKILL.md`. Local/`rg`/Graphify
+  `~/.cursor/skills/context7-cli/SKILL.md`. Local/`rg`/Graphify
   for private repo docs; `$firecrawl` for live pages outside Context7.
 - Token work: relevant-file selection → caps → Headroom for large sessions.
   No LiteLLM/provider billing frameworks unless scoped.
@@ -141,7 +147,7 @@ Entry: `$cross-agent-router`.
   stale `Documents/Obsidian/Codex-Knowledge` path.
 - Format routing names (`obsidian-markdown`, `obsidian-bases`, `json-canvas`,
   `obsidian-cli`, `defuddle`) match CLAUDE.md. As of 2026-07-09 those kepano
-  skills are **not** present as live `~/.codex/skills/<name>` entries (only
+  skills are **not** present as live `~/.cursor/skills/<name>` entries (only
   `.archived/obsidian-vault`). Re-install/sync before relying on `$skill` load,
   or use `obsidian` CLI / file tools directly.
 - Vault name trap: registered vaults may both be named "Obsidian" — verify
@@ -184,7 +190,7 @@ missing `karpathy-guidelines/SKILL.md` path).
 ## Printed CLI Skills
 
 Printing Press CLIs live in `~/go/bin/` and are surfaced as skills under
-`~/.codex/skills/` when linked. Use the skill body for the exact command contract.
+`~/.cursor/skills/` when linked. Use the skill body for the exact command contract.
 
 Common API surfaces:
 
@@ -221,12 +227,12 @@ sink. Use:
 `Symptom / Cause / Fix / Trigger / Scope / Evidence / Priority`
 
 Promote only actionable, validated lessons at `$close` or task completion.
-Reference: `~/.codex/skills/references/mistake-memory-loop.md`.
+Reference: `~/.cursor/skills/references/mistake-memory-loop.md`.
 
 ## Grok Build Background
 
 Grok Build TUI state is maintained separately under `~/.grok/`. The current
-cross-tool convention is that `~/.codex/skills/` is the canonical skill source,
+cross-tool convention is that `~/.cursor/skills/` is the canonical skill source,
 with Grok-native copies synced from it. Keep repository-local `AGENTS.md` or
 `CLAUDE.md` authoritative for project work. Do not import old profile paths or
 Claude-sourced plugin state into the recovered account.

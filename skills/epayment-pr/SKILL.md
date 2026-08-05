@@ -14,7 +14,7 @@ Draft-PR boundary. Load the epayment guardrails and shared core.
 
 ## Unique actions
 
-1. Run `~/.codex/bin/sprintflow-scope.mjs assert-epayment` with the TROUT ticket, repository, and branch; stop on any nonzero result.
+1. Run `~/.cursor/bin/sprintflow-scope.mjs assert-epayment` with the TROUT ticket, repository, and branch; stop on any nonzero result.
 2. Verify the branch is not `develop`, the diff belongs to the ticket, and both mandatory review receipts match the current tree.
 3. Stage intended files only. Refuse unrelated or denied files.
 4. Commit with the TROUT key and push the ticket branch.
@@ -29,4 +29,4 @@ Draft-PR boundary. Load the epayment guardrails and shared core.
 
 ## Next route
 
-Confirmed draft: `$epayment-polish`. Any changed tree: `$epayment-check`. Stop.
+Confirmed draft: `/epayment-polish`. Any changed tree: `/epayment-check`. Stop.

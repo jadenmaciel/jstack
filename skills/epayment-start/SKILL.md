@@ -5,7 +5,7 @@ description: Inspect one TROUT ticket and existing epayment work.
 
 # Epayment Start
 
-TROUT intake only. Load `~/.codex/skills/references/epayment-sprintflow.md`, the shared core, and the router.
+TROUT intake only. Load `~/.cursor/skills/references/epayment-sprintflow.md`, the shared core, and the router.
 
 ## Inputs
 
@@ -14,7 +14,7 @@ TROUT intake only. Load `~/.codex/skills/references/epayment-sprintflow.md`, the
 
 ## Unique actions
 
-1. Run `~/.codex/bin/sprintflow-scope.mjs assert-epayment --allow-unready true` with the TROUT ticket, repository, and current branch; stop on any nonzero result.
+1. Run `~/.cursor/bin/sprintflow-scope.mjs assert-epayment --allow-unready true` with the TROUT ticket, repository, and current branch; stop on any nonzero result.
 2. Confirm `ExpiTrans/epayment` and the `develop` base.
 3. Before planning, inspect branch, dirty state, commits, remotes, and current-branch PR. Reuse matching work; do not create duplicates. Also scan recent cross-agent sessions for overlapping completed work — `tail -50 ~/.codex/session_index.jsonl` titles and `ls -t ~/.claude/projects/<project-dir>/ | head`; if overlap is suspected, verify PR/commit state before redoing anything.
 4. Read the one TROUT ticket and authorized project context. Extract goal, acceptance criteria, tenant/data risks, likely files, proof path, and open decisions.
@@ -28,4 +28,4 @@ TROUT intake only. Load `~/.codex/skills/references/epayment-sprintflow.md`, the
 
 ## Next route
 
-Use the router: `$ask-matt`, `$implement`, or `$grill-with-docs`. Stop.
+Use the router: `/ask-matt`, `/implement`, or `/grill-with-docs`. Stop.

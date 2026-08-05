@@ -78,7 +78,7 @@ owns code restraint. Where they overlap, stop-slop governs only the prose artifa
 **Default: on.** Toggle with `/stop-slop off`, `/stop-slop on`, `/stop-slop status` (or natural language
 "stop slop" / "normal mode"). Active state shows as a magenta `[STOP-SLOP]` badge in the Claude Code statusline.
 
-**Shared install.** This file is the canonical copy at `~/.codex/skills/stop-slop`, used by both Codex and
+**Shared install.** This file is the canonical copy at `~/.cursor/skills/stop-slop`, used by both Codex and
 Claude Code; `~/.claude/skills/stop-slop` is a symlink to it.
 
 **Gates.** Does not override any validation, security, accessibility, test, or review requirement.

@@ -58,8 +58,8 @@ reviewers approve and a PM merges. Green devtest results go in the report only.
 
 ## Next route
 
-PASS: `$epayment-pr` (open or update the PR — merging stays human). Findings:
-fix locally, redeploy, retest. Unclear failure: `$diagnosing-bugs`. Stop.
+PASS: `/epayment-pr` (open or update the PR — merging stays human). Findings:
+fix locally, redeploy, retest. Unclear failure: `/diagnosing-bugs`. Stop.
 
 
 Additional: Use `browser-use` for testing the dev environment https://jaden.expitrans.com/

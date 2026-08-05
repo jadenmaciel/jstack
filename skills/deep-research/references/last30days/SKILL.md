@@ -78,7 +78,7 @@ fi
 echo "CLAUDE_CACHE_SKILL_MD=$CLAUDE_CACHE_SKILL_MD"
 ```
 
-If the SKILL.md you Read is under `/.claude/plugins/marketplaces/` AND `$CLAUDE_CACHE_SKILL_MD` is non-empty, STOP and re-read `$CLAUDE_CACHE_SKILL_MD` first. All other paths (`~/.codex/skills/`, `~/.agents/skills/`, `npx skills add` dir, repo checkout) are fine.
+If the SKILL.md you Read is under `/.claude/plugins/marketplaces/` AND `$CLAUDE_CACHE_SKILL_MD` is non-empty, STOP and re-read `$CLAUDE_CACHE_SKILL_MD` first. All other paths (`~/.cursor/skills/`, `~/.agents/skills/`, `npx skills add` dir, repo checkout) are fine.
 
 ---
 
@@ -255,7 +255,7 @@ The engine fans out N full `pipeline.run()` calls in parallel — one per entity
 ```bash
 # SKILL_DIR = the directory containing THIS SKILL.md you Read (your harness reported it in the Read
 # result); scripts/last30days.py is always its direct child. E.g. ~/.claude/skills/last30days,
-# ~/.codex/skills/last30days, or ~/.claude/plugins/cache/last30days-skill/last30days/3.3.2/skills/last30days
+# ~/.cursor/skills/last30days, or ~/.claude/plugins/cache/last30days-skill/last30days/3.3.2/skills/last30days
 SKILL_DIR="<absolute path of the directory containing the SKILL.md you Read>"
 [ -f "$SKILL_DIR/scripts/last30days.py" ] || { echo "ERROR: scripts/last30days.py not found under SKILL_DIR=$SKILL_DIR" >&2; exit 1; }
 

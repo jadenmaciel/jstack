@@ -10,13 +10,13 @@ description: "Runs NVIDIA SkillSpector security scans on agent skill bundles and
 Use the bundled wrapper for local scans:
 
 ```bash
-/Users/testadmin/.codex/skills/skillspector/scripts/skillspector-scan ./path/to/skill --no-llm
+/Users/testadmin/.cursor/skills/skillspector/scripts/skillspector-scan ./path/to/skill --no-llm
 ```
 
 Write a machine-readable report when the result needs to be preserved:
 
 ```bash
-/Users/testadmin/.codex/skills/skillspector/scripts/skillspector-scan ./path/to/skill --no-llm --format json --output /tmp/skillspector-report.json
+/Users/testadmin/.cursor/skills/skillspector/scripts/skillspector-scan ./path/to/skill --no-llm --format json --output /tmp/skillspector-report.json
 ```
 
 ## Workflow

@@ -14,9 +14,9 @@ Scoped merge boundary. Read the shared core and router.
 
 ## Unique actions
 
-1. Run `~/.codex/bin/sprintflow-scope.mjs assert-normal --ticket <ID> --repo <path> --branch <name>`. Any nonzero result refuses epayment/TROUT or ambiguous scope.
+1. Run `~/.cursor/bin/sprintflow-scope.mjs assert-normal --ticket <ID> --repo <path> --branch <name>`. Any nonzero result refuses epayment/TROUT or ambiguous scope.
 2. Take one snapshot of the named PR's head, tree, base, draft state, checks, review decision, mergeability, update state, a `$check` report whose `tree_oid` equals the head tree, blocking advisory state, and every open PR's `autoMergeRequest`. `$land` performs its own one-shot gate; fresh `$gate` evidence is not an input.
-3. Normalize that snapshot and evaluate it with `~/.codex/bin/sprintflow-lifecycle-policy.mjs land --snapshot <json>` plus `--override-head <invocation-head>` only when requested. Treat its fail-closed action limits as binding, and evaluate the single post-update snapshot again for race handling.
+3. Normalize that snapshot and evaluate it with `~/.cursor/bin/sprintflow-lifecycle-policy.mjs land --snapshot <json>` plus `--override-head <invocation-head>` only when requested. Treat its fail-closed action limits as binding, and evaluate the single post-update snapshot again for race handling.
 4. Without an override, refuse a missing `$check` report or a mismatched `tree_oid`, agent approval-policy failures, material findings, or blocking advisory state. `--override-agent-guards` may waive a missing or tree-mismatched report, agent approval policy, and non-material advisory state only for the invocation head. A changed head expires it. Never waive material findings, failed required checks, conflicts, drafts, ambiguous scope, another active landing candidate, or GitHub protections. Never use GitHub admin bypass.
 5. Fail closed if any other PR has auto-merge armed. Multiple active auto-merge PRs are `HOLD`; do not update any branch.
 6. If the target is current and green, squash-merge it immediately, confirm `mergedAt` once, and return the merged result.
@@ -31,4 +31,4 @@ Scoped merge boundary. Read the shared core and router.
 
 ## Next route
 
-Confirmed merge: `$close`. `QUEUED_FOR_MERGE`: `none`. Missing `$check` report or mismatched `tree_oid` without an override: `$check`. Any other blocker: `none`. Stop.
+Confirmed merge: `/close`. `QUEUED_FOR_MERGE`: `none`. Missing `$check` report or mismatched `tree_oid` without an override: `/check`. Any other blocker: `none`. Stop.

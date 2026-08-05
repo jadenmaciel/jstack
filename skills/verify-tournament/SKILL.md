@@ -22,7 +22,7 @@ Run a small verification tournament: fixed target, fixed profile, copied candida
 Use:
 
 ```bash
-python3 /Users/testadmin/.codex/skills/verify-tournament/scripts/run_tournament.py \
+python3 /Users/testadmin/.cursor/skills/verify-tournament/scripts/run_tournament.py \
   --target /path/to/SKILL.md \
   --candidate /tmp/cand-1.md \
   --candidate /tmp/cand-2.md \

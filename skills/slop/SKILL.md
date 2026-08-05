@@ -56,4 +56,4 @@ Sometimes a probe earns a second life — a lint rule that catches real violatio
 
 ## Next
 
-Finding implies a product change, or the probe itself proved durable enough to promote (rebuild in-repo) → `$tdd` or `$implement`. Finding is really a design question → `$prototype`. Otherwise: return to whatever invoked `$slop`.
+Finding implies a product change, or the probe itself proved durable enough to promote (rebuild in-repo) → `/tdd` or `/implement`. Finding is really a design question → `/prototype`. Otherwise: return to whatever invoked `$slop`.

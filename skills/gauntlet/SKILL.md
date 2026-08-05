@@ -90,4 +90,4 @@ scripts staged, not pushed, until a ticket scopes wiring them into live CI.
 ## Next route
 
 Clean: hand back to whatever brought you here (PR flow, `$check`, or the user).
-Unresolved failure `$fix` can't close: `$diagnosing-bugs`. Stop.
+Unresolved failure `$fix` can't close: `/diagnosing-bugs`. Stop.

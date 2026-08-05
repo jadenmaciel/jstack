@@ -16,8 +16,8 @@ One-shot, read-only preview of non-epayment release readiness. Read the shared c
 
 1. Reject zero or multiple candidate PRs; never guess.
 2. Read the PR number, base, latest head SHA/tree, repository, branch, draft state, checks, review decision, mergeability, and blocking comments once.
-3. Normalize that snapshot and evaluate it with `~/.codex/bin/sprintflow-lifecycle-policy.mjs gate --snapshot <json>`; its fail-closed verdict is binding.
-4. If repository or branch evidence identifies epayment/TROUT, emit `HOLD` with `Next: $epayment-check`.
+3. Normalize that snapshot and evaluate it with `~/.cursor/bin/sprintflow-lifecycle-policy.mjs gate --snapshot <json>`; its fail-closed verdict is binding.
+4. If repository or branch evidence identifies epayment/TROUT, emit `HOLD` with `Next: /epayment-check`.
 5. Confirm `$check` graded this exact tree: re-run `~/.cursor/bin/sprintflow-evidence.mjs fingerprint --repo <path> --base <rev>` and require its `tree_oid` to equal the one in the `$check` report, on a `PASS` or `WARN` grade. A missing report or a mismatched `tree_oid` is a hold; the remedy is `$check`, which re-grades the current tree. A `WARN` grade whose findings are all resolved is advisory and releases.
 6. Emit `HOLD` immediately for failed CI, draft, missing approval, conflict, material finding, policy blocker, invalid evidence, or ambiguity. Do not wait, poll, repair, push, or re-enter.
 7. Emit `READY_FOR_LAND` when the latest head is clean, current, green, approved as required, and mergeable.
@@ -30,4 +30,4 @@ One-shot, read-only preview of non-epayment release readiness. Read the shared c
 
 ## Next route
 
-`READY_FOR_LAND` or `READY_FOR_AUTO_MERGE`: `$land`. `HOLD` on a missing report or mismatched `tree_oid`: `$check`. `HOLD` with a clear correction: `$implement`. Unclear failure: `$diagnosing-bugs`. Stop.
+`READY_FOR_LAND` or `READY_FOR_AUTO_MERGE`: `/land`. `HOLD` on a missing report or mismatched `tree_oid`: `/check`. `HOLD` with a clear correction: `/implement`. Unclear failure: `/diagnosing-bugs`. Stop.

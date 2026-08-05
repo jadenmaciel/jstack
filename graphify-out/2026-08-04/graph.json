@@ -1,0 +1,119 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "install-on-cloud.sh",
+      "file_type": "code",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "install_on_cloud",
+      "community": 0,
+      "norm_label": "install-on-cloud.sh"
+    },
+    {
+      "label": "install-on-cloud.sh script",
+      "file_type": "code",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "install_on_cloud_sh__entry",
+      "community": 0,
+      "norm_label": "install-on-cloud.sh script"
+    },
+    {
+      "label": "clone_https_token()",
+      "file_type": "code",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L8",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "install_on_cloud_clone_https_token",
+      "community": 0,
+      "norm_label": "clone_https_token()"
+    },
+    {
+      "label": "clone_deploy_key()",
+      "file_type": "code",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L12",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "install_on_cloud_clone_deploy_key",
+      "community": 0,
+      "norm_label": "clone_deploy_key()"
+    }
+  ],
+  "links": [
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "install_on_cloud",
+      "target": "install_on_cloud_clone_deploy_key",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "install_on_cloud",
+      "target": "install_on_cloud_clone_https_token",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "install_on_cloud",
+      "target": "install_on_cloud_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "call",
+      "source": "install_on_cloud_sh__entry",
+      "target": "install_on_cloud_clone_deploy_key",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "call",
+      "source": "install_on_cloud_sh__entry",
+      "target": "install_on_cloud_clone_https_token",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "539d0dc2920805fcaa6e300769df16312b527cdb"
+}

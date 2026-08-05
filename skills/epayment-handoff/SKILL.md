@@ -13,7 +13,7 @@ Human-review handoff ceiling. Load the epayment guardrails and shared core.
 
 ## Unique actions
 
-1. Run `~/.codex/bin/sprintflow-scope.mjs assert-epayment` with the TROUT ticket, repository, and PR branch; stop on any nonzero result.
+1. Run `~/.cursor/bin/sprintflow-scope.mjs assert-epayment` with the TROUT ticket, repository, and PR branch; stop on any nonzero result.
 2. Re-read ticket, draft PR head/tree, and same-tree Claude/Codex receipts once.
 3. Refuse a changed tree, non-draft PR, wrong base, open blocking finding, or missing polish evidence.
 4. Post one short first-person TROUT comment with the draft PR, behavior, proof, tenant/migration notes, and remaining human action.
@@ -27,4 +27,4 @@ Human-review handoff ceiling. Load the epayment guardrails and shared core.
 
 ## Next route
 
-Confirmed handoff: `none`. Changed code: `$epayment-check`. Other blocker: `none`. Stop.
+Confirmed handoff: `none`. Changed code: `/epayment-check`. Other blocker: `none`. Stop.

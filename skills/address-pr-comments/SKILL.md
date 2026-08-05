@@ -42,7 +42,7 @@ Take one item to completion before the next -- do not batch the fixes. For each 
 2. Verify it with the same command the failed check ran -- `make check`, `terraform fmt` / `validate`, or the failing test.
 3. For a thread: reply, then resolve -- see etiquette below. (A code check has nothing to reply to; its proof is the green run.)
 
-After local repairs pass their focused proof, invoke `$check` in embedded return mode with `return_to: address-pr-comments`. `$check` and `$fix` repeat until embedded `$check` returns PASS or `$fix` reaches a documented safe stop. Evaluate the result with `~/.codex/bin/sprintflow-lifecycle-policy.mjs address --snapshot <json>`; only `PUSHED_FOR_CI` permits the single push. Any unresolved finding, warning, or block prevents a push. Done when embedded `$check` returns PASS for the repaired tree.
+After local repairs pass their focused proof, invoke `$check` in embedded return mode with `return_to: address-pr-comments`. `$check` and `$fix` repeat until embedded `$check` returns PASS or `$fix` reaches a documented safe stop. Evaluate the result with `~/.cursor/bin/sprintflow-lifecycle-policy.mjs address --snapshot <json>`; only `PUSHED_FOR_CI` permits the single push. Any unresolved finding, warning, or block prevents a push. Done when embedded `$check` returns PASS for the repaired tree.
 
 ## 4. Push and report
 

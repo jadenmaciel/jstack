@@ -38,7 +38,7 @@ export CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 export PWCLI="$CODEX_HOME/skills/playwright/scripts/playwright_cli.sh"
 ```
 
-User-scoped skills install under `$CODEX_HOME/skills` (default: `~/.codex/skills`).
+User-scoped skills install under `$CODEX_HOME/skills` (default: `~/.cursor/skills`).
 
 ## Quick start
 
@@ -147,6 +147,6 @@ Open only what you need:
 - Default to CLI commands and workflows, not Playwright test specs.
 
 ## Next Skill Decision
-Read `~/.codex/skills/references/next-skill-router.md` before final output when choosing the next handoff. End with a compact `Next` section by default; use `NEXT_SKILL_DECISION` only when parser-safe output is explicitly requested.
+Read `~/.cursor/skills/references/next-skill-router.md` before final output when choosing the next handoff. End with a compact `Next` section by default; use `NEXT_SKILL_DECISION` only when parser-safe output is explicitly requested.
 
 Default helper routing: return to the invoking skill when complete; recommend `$check` after changes that need validation, `$diagnosing-bugs` when local runtime/tooling root cause is unclear, or `$close` for normal ticket completion. Do not invoke the recommendation.

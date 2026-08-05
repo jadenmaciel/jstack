@@ -43,18 +43,18 @@ When the user asks to learn, explain phase purpose, tenant risk, important files
 ## Matt skill mapping
 
 epayment skills invoke mattpocock methods by sigil; both runtimes resolve it:
-Claude Code via the `mattpocock-skills:` plugin, Codex via its `~/.codex/skills/`
+Claude Code via the `mattpocock-skills:` plugin, Codex via its `~/.cursor/skills/`
 copy.
 
 | Sigil | Claude plugin | Codex copy |
 | --- | --- | --- |
-| `$grilling` | `mattpocock-skills:grilling` | `~/.codex/skills/grilling` |
-| `$research` | `mattpocock-skills:research` | `~/.codex/skills/deep-research` Quick mode (folded in 2026-07-24) |
-| `$tdd` | `mattpocock-skills:tdd` | `~/.codex/skills/tdd` |
-| `$code-review` | `mattpocock-skills:code-review` | `~/.codex/skills/code-review` |
-| `$diagnosing-bugs` | `mattpocock-skills:diagnosing-bugs` | `~/.codex/skills/diagnosing-bugs` |
-| `$domain-modeling` | `mattpocock-skills:domain-modeling` | `~/.codex/skills/domain-modeling` |
-| `$codebase-design` | `mattpocock-skills:codebase-design` | `~/.codex/skills/codebase-design` |
+| `$grilling` | `mattpocock-skills:grilling` | `~/.cursor/skills/grilling` |
+| `$research` | `mattpocock-skills:research` | `~/.cursor/skills/deep-research` Quick mode (folded in 2026-07-24) |
+| `$tdd` | `mattpocock-skills:tdd` | `~/.cursor/skills/tdd` |
+| `$code-review` | `mattpocock-skills:code-review` | `~/.cursor/skills/code-review` |
+| `$diagnosing-bugs` | `mattpocock-skills:diagnosing-bugs` | `~/.cursor/skills/diagnosing-bugs` |
+| `$domain-modeling` | `mattpocock-skills:domain-modeling` | `~/.cursor/skills/domain-modeling` |
+| `$codebase-design` | `mattpocock-skills:codebase-design` | `~/.cursor/skills/codebase-design` |
 
 `$implement`, `/opsx:propose`, and `$grill-with-docs` are user-only for Matt/OpenSpec planning steps
 (`disable-model-invocation: true` on Matt plugin skills) — a skill can route to them but only the

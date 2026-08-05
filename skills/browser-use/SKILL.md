@@ -157,7 +157,7 @@ If you get stuck on a browser mechanic, check https://github.com/browser-use/bro
 
 ## Gotchas
 
-- Focus stealing is disabled: `agent-workspace/agent_helpers.py` swallows `Target.activateTarget` and forces `background: true` on `Target.createTarget`, so Chrome stays behind while the user works. If a screenshot of a background tab comes back blank, call `focus_tab()` (steals focus once) or set `BH_FOCUS=1` to restore stock behavior. `BH_CDP_LOG=1` logs every CDP call for debugging.
+- Focus stealing is disabled (client + daemon): `agent-workspace/agent_helpers.py` swallows `Target.activateTarget` / `Page.bringToFront`, forces `background: true` on `Target.createTarget`, and enables `Emulation.setFocusEmulationEnabled` after attach. Daemon cold-start is covered by `daemon_focus_hook.py` (install/re-apply after updates: `python3 ~/.config/browser-harness/agent-workspace/apply_focus_hook.py && browser-use --reload`). **Sentinel tab:** keep ≥1 real loaded (`http`/`https`/`file`) tab open — empty window / only-`about:blank` still raises Chrome once. Prefer focus emulation over `focus_tab()`; only call `focus_tab()` if a screenshot is still blank. `BH_FOCUS=1` restores stock behavior. `BH_CDP_LOG=1` logs CDP calls.
 - `chrome://inspect/#remote-debugging` must be enabled for local Chrome control.
 - Chrome may show an "Allow remote debugging?" popup; wait for the user to click Allow. Do not retry in a loop — Chrome pops a fresh dialog for every new connection, and the daemon's single held connection is what makes this a one-time click.
 - Omnibox popups are not real work tabs.

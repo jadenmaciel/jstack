@@ -28,4 +28,4 @@ Automatic normal-check remediation. Read the shared core and router.
 
 ## Next route
 
-Material progress: invoke `$check` now. Unclear root cause: `$diagnosing-bugs`. No-progress, unsafe, external, or human blocker: `none`. Stop only when no automatic `$check` route applies.
+Material progress: invoke `$check` now. Unclear root cause: `/diagnosing-bugs`. No-progress, unsafe, external, or human blocker: `none`. Stop only when no automatic `$check` route applies.

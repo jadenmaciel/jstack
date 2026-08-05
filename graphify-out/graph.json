@@ -1,0 +1,73 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "install-on-cloud.sh",
+      "file_type": "code",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "install_on_cloud",
+      "community": 0,
+      "norm_label": "install-on-cloud.sh"
+    },
+    {
+      "label": "install-on-cloud.sh script",
+      "file_type": "code",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "install_on_cloud_sh__entry",
+      "community": 0,
+      "norm_label": "install-on-cloud.sh script"
+    },
+    {
+      "label": "PATH",
+      "file_type": "code",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L19",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "install_on_cloud_path",
+      "community": 0,
+      "norm_label": "path"
+    }
+  ],
+  "links": [
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "install_on_cloud",
+      "target": "install_on_cloud_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "install-on-cloud.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "install_on_cloud",
+      "target": "install_on_cloud_sh__entry",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "34556a668be5cf1117e6c79f062b246f4723a6c1"
+}

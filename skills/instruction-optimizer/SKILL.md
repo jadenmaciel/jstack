@@ -20,12 +20,12 @@ You author the trimmed variants; `scripts/score.py` only **measures**. Safety is
 
 ## In scope (local editable instruction TEXT)
 
-- Skills: `~/.codex/skills/**/SKILL.md` (canonical) and `~/.claude/skills/**/SKILL.md` (synced copies).
-- Globals: `~/.claude/CLAUDE.md`, `CLAUDE-omc.md`, `SPRINTFLOW.md`; `~/Agents.md`; `~/.codex/skills/references/*.md`.
+- Skills: `~/.cursor/skills/**/SKILL.md` (canonical) and `~/.claude/skills/**/SKILL.md` (synced copies).
+- Globals: `~/.claude/CLAUDE.md`, `CLAUDE-omc.md`, `SPRINTFLOW.md`; `~/Agents.md`; `~/.cursor/skills/references/*.md`.
 - Plugin assets that are local files: plugin `SKILL.md`, command `.md`, agent-definition `.md`.
-- Scripts (do last, different gate -> reference/non-prose-assets.md): `~/.codex/skills/**/*.workflow.js`, `*.mjs`.
+- Scripts (do last, different gate -> reference/non-prose-assets.md): `~/.cursor/skills/**/*.workflow.js`, `*.mjs`.
 
-Out of scope: MCP server-provided tool descriptions (not local files), any code/logic file, old-account paths. Skip `~/.codex/skills/check/SKILL.md` (already optimized).
+Out of scope: MCP server-provided tool descriptions (not local files), any code/logic file, old-account paths. Skip `~/.cursor/skills/check/SKILL.md` (already optimized).
 
 ## Ask first only if ambiguous (0-3 questions)
 

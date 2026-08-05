@@ -1,38 +1,53 @@
 # Next Skill Router
 
-Recommend exactly one route and stop. Never invoke it except for `$check`'s bounded `$code-review` substep and the progress-guarded `$check` → `$fix` → `$check` loop.
+Authority: `~/.cursor/skills/references/sprintflow-core.md`. OpenSpec is the
+default spine; SprintFlow + Matt skills attach by phase.
 
-`$to-spec` is retired. Spec-worthy default: `/opsx:explore` → `$grill-with-docs` → `/opsx:propose` → `/opsx:apply`. Skip explore when the touch area is already clear; skip grill when decisions/ADRs are already locked; if both skip, go to `/opsx:propose`.
+Recommend exactly one route and stop. Never invoke it except for `$check`'s
+bounded `$code-review` substep and the progress-guarded `$check` → `$fix` →
+`$check` loop.
+
+User-facing `Next` lines write `/name` (never `$name`). Internal narrative may
+keep `$name`. Exactly one `/name` or `none` per Next — never two skills in one
+cell.
+
+`$to-spec` is retired. Spec-worthy default: `/opsx:explore` →
+`/grill-with-docs` → `/opsx:propose` → `/opsx:apply`. Skip explore when the
+touch area is clear; skip grill when decisions/ADRs are locked; if both skip →
+`/opsx:propose`. Prefer OpenSpec whenever a change is active or a spec trigger
+matches. Do not recommend `/opsx:verify` (not installed).
 
 | Situation | Next |
 |---|---|
-| Unsure which path fits | `$ask-matt` |
-| Big diff, commit, or PR needs a comprehension pass before reading it raw | `$diffsum` (big-diff comprehension helper; routes on to `$fix`/`$code-review`/`$pr`) |
-| Empirical question about real code is faster to answer by running throwaway code than by reasoning | `$slop` (empirical-probe helper; returns to the invoking context when done) |
-| Small, well-defined change | `$implement` |
-| New feature, API/schema/migration, auth/security contract, more than three expected files, multiple sessions, or meaningful design ambiguity | `/opsx:explore` |
-| Codebase area mapped (after `/opsx:explore`, or explore skipped because area already clear) | `$grill-with-docs` |
-| Scope is grilled and decision-complete and meets a spec criterion above | `/opsx:propose` |
-| Scope is grilled and decision-complete but meets no spec criterion above | `$implement` |
+| Unsure which path fits | `/ask-matt` |
+| Big diff, commit, or PR needs a comprehension pass before reading it raw | `/diffsum` |
+| Empirical question faster to answer by running throwaway code than by reasoning | `/slop` |
+| Small, well-defined change (no OpenSpec change active) | `/implement` |
+| New feature, API/schema/migration, auth/security contract, >3 expected files, multi-session, or design ambiguity | `/opsx:explore` |
+| Codebase area mapped (after `/opsx:explore`, or explore skipped) | `/grill-with-docs` |
+| Scope grilled and decision-complete; meets a spec criterion | `/opsx:propose` |
+| Scope grilled and decision-complete; no spec criterion | `/implement` |
 | OpenSpec change artifacts ready; one session | `/opsx:apply` |
-| OpenSpec change / approved spec needs multiple sessions | `$to-tickets` |
-| Hard bug or unclear failure | `$diagnosing-bugs` |
-| Implementation or clear correction is complete | `$check` |
-| Normal `$check` has fingerprinted its current tree | `$code-review` (invoke once, then resume `$check`) |
-| Normal `$check` reports one or more structured findings | `$fix` (invoke now) |
-| `$fix` changes the tree or adds decisive evidence | `$check` (invoke now) |
-| Non-epayment check is clean, including documentation-only | `$pr` (if an OpenSpec change is still active, recommend `/opsx:verify` first) |
-| Normal-path PR is open and current | `$land` (self-gate once) |
-| Human or queue operator wants a read-only landing preview | `$gate` |
-| Gate says `READY_FOR_LAND` | `$land` |
-| Gate says `READY_FOR_AUTO_MERGE` | `$land` (queue once, then stop) |
+| OpenSpec change needs multiple sessions | `/to-tickets` |
+| Hard bug or unclear failure | `/diagnosing-bugs` |
+| Implementation or clear correction is complete | `/check` |
+| Normal `$check` has fingerprinted its current tree | `$code-review` |
+| Normal `$check` reports structured findings | `$fix` |
+| `$fix` changed the tree or added decisive evidence | `$check` |
+| Non-epayment check is clean | `/pr` |
+| Normal-path PR is open and current | `/land` |
+| Human wants a read-only landing preview | `/gate` |
+| Gate says `READY_FOR_LAND` or `READY_FOR_AUTO_MERGE` | `/land` |
 | Land says `QUEUED_FOR_MERGE` | `none` |
-| Normal PR is confirmed merged | `$close` |
-| Epayment intake is complete and scope is small | `$implement` |
-| Epayment implementation is complete | `$epayment-check` |
-| Epayment check is clean | `$epayment-pr` |
-| Epayment draft PR is current | `$epayment-polish` |
-| Epayment polish is clean | `$epayment-handoff` |
+| Normal PR is confirmed merged | `/close` |
+| Matching OpenSpec change still active after Done | `/opsx:archive` |
+| Epayment intake complete and scope is small | `/implement` |
+| Epayment intake complete and scope is spec-worthy | `/opsx:explore` |
+| Epayment implementation complete | `/epayment-check` |
+| Epayment check clean | `/epayment-pr` |
+| Epayment draft PR current | `/epayment-polish` |
+| Epayment polish clean | `/epayment-handoff` |
 | Work is blocked | `none` |
 
-External normal tickets prepend `$start`; TROUT/epayment tickets prepend `$epayment-start`.
+External normal tickets prepend `/start`; TROUT/epayment tickets prepend
+`/epayment-start`.

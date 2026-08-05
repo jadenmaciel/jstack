@@ -27,7 +27,7 @@ allowed-tools:
   - Bash(tail *)
   - Bash(mkdir *)
   - Bash(notebooklm *)
-  - Bash(bash /Users/testadmin/.codex/skills/notebooklm/scripts/*)
+  - Bash(bash /Users/testadmin/.cursor/skills/notebooklm/scripts/*)
   - Read
   - Write
   - Glob
@@ -317,7 +317,7 @@ See `.research/<slug>/evidence.md`.
 
 Use after the evidence ledger + synthesis exist, before delivery. Mandatory; not a fact source, must not create evidence IDs. Bundle unsafe/too sensitive/too broad, or browser/manual submission unavailable -> record `Oracle: blocked/skipped` + exact reason in methodology/final summary.
 
-Follow `~/.codex/skills/references/oracle-advisory-escalation.md`: challenge conclusions, gaps, assumptions, source weighting, decision recommendations; attach report + evidence ledger + small set of safe source excerpts; run `oracle --dry-run summary --files-report ...` before any broad bundle; record accepted/rejected critiques in methodology/final summary.
+Follow `~/.cursor/skills/references/oracle-advisory-escalation.md`: challenge conclusions, gaps, assumptions, source weighting, decision recommendations; attach report + evidence ledger + small set of safe source excerpts; run `oracle --dry-run summary --files-report ...` before any broad bundle; record accepted/rejected critiques in methodology/final summary.
 
 Don't silently skip Oracle for brief/factual/low-risk/well-triangulated research; run the smallest safe critique bundle or record the exact blocker. Don't send sensitive/private context.
 

@@ -14,7 +14,7 @@ Mandatory final draft-PR pass. Load the epayment guardrails and shared core.
 
 ## Unique actions
 
-1. Run `~/.codex/bin/sprintflow-scope.mjs assert-epayment` with the TROUT ticket, repository, and PR branch; stop on any nonzero result.
+1. Run `~/.cursor/bin/sprintflow-scope.mjs assert-epayment` with the TROUT ticket, repository, and PR branch; stop on any nonzero result.
 2. Read the PR once and verify draft state, base, head, tree, and exact mandatory receipts.
 3. Use `$stop-slop` as the PR-prose discipline: remove boilerplate and update only title/body when needed.
 4. Use `$ponytail-review` as a read-only diff discipline: identify unnecessary abstraction, branches, comments, dependencies, or churn without weakening validation, tenant scope, security, or data safety.
@@ -29,4 +29,4 @@ Mandatory final draft-PR pass. Load the epayment guardrails and shared core.
 
 ## Next route
 
-Unchanged and clean: `$epayment-handoff`. Any Git content change: `$epayment-check`. Other finding: `$implement`. Stop.
+Unchanged and clean: `/epayment-handoff`. Any Git content change: `/epayment-check`. Other finding: `/implement`. Stop.

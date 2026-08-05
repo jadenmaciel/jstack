@@ -11,7 +11,7 @@ This is a dry run. Do not modify, move, delete, or rename anything being audited
 Codex:
 
 - `~/.agents/skills`
-- `~/.codex/skills` — this directory exists locally; verify separately whether the current setup actually loads it
+- `~/.cursor/skills` — this directory exists locally; verify separately whether the current setup actually loads it
 - `~/.codex/config.toml`
 - `~/.codex/plugins`
 - `~/.codex/AGENTS.md` and `~/.codex/AGENTS.override.md`

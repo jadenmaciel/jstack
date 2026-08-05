@@ -113,7 +113,7 @@ Numbered flags carry receipts (quoted diff lines); prose summaries don't need to
 
 ## Next
 
-Flags present → `$fix` or `$code-review`. Clean and ready to ship → `$pr`. Need to trace a symbol deeper than this diff shows → `$codegraph`. Otherwise: stop.
+Flags present → `/fix` or `/code-review`. Clean and ready to ship → `/pr`. Need to trace a symbol deeper than this diff shows → `/codegraph`. Otherwise: stop.
 
 ---
 
