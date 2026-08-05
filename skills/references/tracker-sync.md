@@ -1,6 +1,6 @@
 # Tracker Sync
 
-How lifecycle skills keep the issue tracker in step with the work. Referenced by `$implement`, `$pr`, and explicit `$cycle`. `$close` and `$epayment-handoff` own terminal transitions and are unchanged.
+How lifecycle skills keep the issue tracker in step with the work. Referenced by `$implement`, `$pr`. `$close` and `$epayment-handoff` own terminal transitions and are unchanged.
 
 ## Boundaries
 
@@ -11,7 +11,7 @@ How lifecycle skills keep the issue tracker in step with the work. Referenced by
 | `$close` (normal) | Done | only if the user asks |
 | `$epayment-handoff` (epayment) | Code Review | one first-person TROUT comment (existing behavior) |
 
-Explicit `$cycle` updates every explicitly linked owned tracker at phase boundaries,
+Lifecycle skills update owned trackers at their named phase boundaries,
 never on passive polls:
 
 | Cycle phase | Status | Comment |
@@ -44,7 +44,7 @@ Write only to a ticket the user owns: the Jira assignee or reporter is `j.shapir
 ## Mechanism
 
 - Jira (FILL / TROUT): Composio. Comment with `JIRA_ADD_COMMENT` (confirmed). For the status move, resolve the transition tool from the Composio Jira toolkit at call time (the transition slug is not pinned here; confirm it exists before use, and skip the transition with a reported note if it does not). Never send credentials, customer data, or proprietary code in a comment body.
-- GitHub Issues (GH / Purely): `gh`. Status is expressed with labels (`gh issue edit <n> --add-label in-progress` / `--remove-label in-progress --add-label in-review`) since GitHub Issues has no status state machine; comment with `gh issue comment <n> --body "..."`. For cycle, query labels and comments first and acknowledge the guard's pending update afterward.
+- GitHub Issues (GH / Purely): `gh`. Status is expressed with labels (`gh issue edit <n> --add-label in-progress` / `--remove-label in-progress --add-label in-review`) since GitHub Issues has no status state machine; comment with `gh issue comment <n> --body "..."`. For multi-phase work, query labels and comments first and acknowledge the guard's pending update afterward.
 
 ## Failure handling
 

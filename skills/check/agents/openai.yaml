@@ -1,6 +1,6 @@
 interface:
   display_name: "Check"
-  short_description: "Validate with automatic two-axis review"
+  short_description: "Gauntlet + thermos ship gate with fix loop"
   default_prompt: "Use $check to validate this completed implementation."
 policy:
   allow_implicit_invocation: true

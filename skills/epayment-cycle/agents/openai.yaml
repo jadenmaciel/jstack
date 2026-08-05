@@ -1,6 +1,0 @@
-interface:
-  display_name: "Epayment Cycle"
-  short_description: "Drive epayment work to a green draft PR"
-  default_prompt: "Use $epayment-cycle to implement this TROUT or linked FILL task through a green draft PR and Jira handoff."
-policy:
-  allow_implicit_invocation: false

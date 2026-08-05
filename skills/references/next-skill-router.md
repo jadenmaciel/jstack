@@ -3,9 +3,9 @@
 Authority: `~/.cursor/skills/references/sprintflow-core.md`. OpenSpec is the
 default spine; SprintFlow + Matt skills attach by phase.
 
-Recommend exactly one route and stop. Never invoke it except for `$check`'s
-bounded `$code-review` substep and the progress-guarded `$check` → `$fix` →
-`$check` loop.
+Recommend exactly one route and stop. Never invoke it except for `$check` /
+`$epayment-check` bounded `$gauntlet` and `$thermos` substeps and the
+progress-guarded check → `$fix` → check loop.
 
 User-facing `Next` lines write `/name` (never `$name`). Internal narrative may
 keep `$name`. Exactly one `/name` or `none` per Next — never two skills in one
@@ -15,7 +15,9 @@ cell.
 `/grill-with-docs` → `/opsx:propose` → `/opsx:apply`. Skip explore when the
 touch area is clear; skip grill when decisions/ADRs are locked; if both skip →
 `/opsx:propose`. Prefer OpenSpec whenever a change is active or a spec trigger
-matches. Do not recommend `/opsx:verify` (not installed).
+matches. When a change is active, clean `/check` routes through
+`/opsx:verify` before `/pr`; after `/close` Done with a matching
+change, route `/opsx:archive`.
 
 | Situation | Next |
 |---|---|
@@ -31,16 +33,22 @@ matches. Do not recommend `/opsx:verify` (not installed).
 | OpenSpec change needs multiple sessions | `/to-tickets` |
 | Hard bug or unclear failure | `/diagnosing-bugs` |
 | Implementation or clear correction is complete | `/check` |
-| Normal `$check` has fingerprinted its current tree | `$code-review` |
-| Normal `$check` reports structured findings | `$fix` |
-| `$fix` changed the tree or added decisive evidence | `$check` |
-| Non-epayment check is clean | `/pr` |
+| Normal `$check` needs project gates before review | `$gauntlet` |
+| Normal `$check` has green gauntlet and fingerprinted its current tree | `$thermos` |
+| `$check` or `$epayment-check` reports structured findings | `$fix` |
+| `$fix` changed the tree or added decisive evidence after `$check` | `$check` |
+| `$fix` changed the tree or added decisive evidence after `$epayment-check` | `$epayment-check` |
+| Epayment `$epayment-check` needs project gates before review | `$gauntlet` |
+| Epayment `$epayment-check` has green gauntlet and fingerprinted its tree | `$thermos` |
+| Non-epayment check is clean and an OpenSpec change is active | `/opsx:verify` |
+| Non-epayment check is clean and no OpenSpec change is active | `/pr` |
+| `/opsx:verify` is clean (or skipped: no active change) | `/pr` |
 | Normal-path PR is open and current | `/land` |
 | Human wants a read-only landing preview | `/gate` |
 | Gate says `READY_FOR_LAND` or `READY_FOR_AUTO_MERGE` | `/land` |
 | Land says `QUEUED_FOR_MERGE` | `none` |
 | Normal PR is confirmed merged | `/close` |
-| Matching OpenSpec change still active after Done | `/opsx:archive` |
+| `/close` Done and matching OpenSpec change still active | `/opsx:archive` |
 | Epayment intake complete and scope is small | `/implement` |
 | Epayment intake complete and scope is spec-worthy | `/opsx:explore` |
 | Epayment implementation complete | `/epayment-check` |

@@ -7,7 +7,7 @@ Load this reference only for `ExpiTrans/epayment` or TROUT work.
 - TROUT is the canonical ticket. FILL material is external context.
 - Work only in the main checkout at `/Users/testadmin/Development/work/epayment`, on a non-`develop` TROUT ticket branch based on `develop`. Never create, enter, or use a linked worktree for `ExpiTrans/epayment`.
 - The automation ceiling is a draft PR to `develop`, one handoff comment, and a TROUT transition to `Code Review`.
-- Explicit `$epayment-cycle` alone may orchestrate the full guarded epayment loop through `sprintflow-epayment-cycle.mjs`; normal `$cycle` remains fail-closed for this scope.
+- `$epayment-cycle` / `$cycle` babysitters are retired; use `$epayment-check` → `$epayment-pr` → `$epayment-polish` → `$epayment-handoff`.
 - Humans own marking ready, approval, merge, Done/Deployed, deployment, production smoke, and production actions.
 - Use Atlassian Rovo for issue/context reads and the configured Jira surface for the authorized handoff write. Use `epayment-gh` for PR operations.
 
@@ -22,10 +22,9 @@ Load this reference only for `ExpiTrans/epayment` or TROUT work.
 ## Proof and review
 
 - Syntax-check changed PHP with `php -l`.
-- Run the smallest focused PHPUnit/PHPStan/Selenium proof that exists and applies; document an unavailable harness.
+- `$epayment-check` runs full `$gauntlet` (including Build when no gates exist), then one `$thermos` on the exact tree OID, then `$fix` for filtered findings.
 - Apply the generic quality bar before review.
-- Every Git tree change requires separate, non-session Claude Fable High and Codex High reviews on the exact same tree OID. The current orchestrator counts as neither reviewer.
-- Each mandatory reviewer runs once. Missing, unavailable, findings, mismatched-tree, or unresolved evidence blocks.
+- Unavailable or unresolved `$thermos` blocks code-changing PASS. Soft CQ notes that miss the Approval Bar stay WARN-only; bugs/security and Approval Bar CQ blockers enter `$fix`.
 - CodeRabbit is advisory: make one opportunistic attempt only when it is already installed and authenticated. Do not install, log in, retry, poll, or block on its absence.
 
 ## PR and handoff

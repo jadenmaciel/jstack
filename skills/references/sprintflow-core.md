@@ -17,7 +17,7 @@ Default loop:
 
 ```text
 [/start] → /opsx:explore → /grill-with-docs → /opsx:propose → /opsx:apply
-  → /check → /pr → /land → /close → /opsx:archive
+  → /check → [/opsx:verify] → /pr → /land → /close → /opsx:archive
 ```
 
 Skip `/opsx:explore` when the touch area is already clear. Skip
@@ -26,8 +26,10 @@ Skip `/opsx:explore` when the touch area is already clear. Skip
 
 User-facing `/opsx:*` maps to installed skills: `openspec-explore`,
 `openspec-propose`, `openspec-apply-change`, `openspec-archive-change`,
-`openspec-sync-specs`. How-to lives in those skills; this file owns policy.
-`/opsx:verify` is not installed — do not recommend it.
+`openspec-sync-specs`, `openspec-verify-change` (`/opsx:verify` or
+`/opsx-verify`). How-to lives in those skills; this file owns policy.
+`/opsx:verify` is optional after a clean `/check` when an OpenSpec change is
+active — it does not replace `$check`.
 
 ## Addon skills (by phase)
 
@@ -35,11 +37,12 @@ User-facing `/opsx:*` maps to installed skills: `openspec-explore`,
 - Decide: `$grill-with-docs`, Matt skills (`$tdd`, `$diagnosing-bugs`,
   `$research`, `$domain-modeling`, `$codebase-design`, `$prototype`, …)
 - Build: `$implement`, `/opsx:apply`
-- Prove: `$check` (+ `$code-review` / `$fix` loop), `$epayment-check`
+- Prove: `$check` / `$epayment-check` (+ `$gauntlet` → `$thermos` / `$fix` loop)
+- Spec check: `/opsx:verify` (artifact↔code; advisory for ship)
 - Ship: `$pr` / `$land` / `$close`, or `$epayment-pr` → `$epayment-polish` →
   `$epayment-handoff`
 - Unblock: `$address-pr-comments`, `$fix-ci`
-- Babysit: explicit `$cycle` / `$epayment-cycle` only
+- Babysit cycles (`$cycle` / `$epayment-cycle`) are retired; do not recommend.
 
 ## Canonical paths
 
@@ -50,9 +53,6 @@ User-facing `/opsx:*` maps to installed skills: `openspec-explore`,
 - Hard bugs: `$diagnosing-bugs` → then OpenSpec or `$implement` as fit
 - Epayment: … → `$epayment-check` → `$epayment-pr` → `$epayment-polish` →
   `$epayment-handoff` (no `$land`)
-- Explicit `$cycle` / `$epayment-cycle` own their loops only via
-  `~/.cursor/bin/sprintflow-cycle.mjs` and
-  `~/.cursor/bin/sprintflow-epayment-cycle.mjs`
 
 ## Task entry
 
@@ -60,10 +60,10 @@ At most one matching public workflow per actionable task. Precedence: sigil
 (`$name` / `/name`) → explicit lifecycle outcome → ticket intake → router match
 → matching Matt user-invoked or model-invoked skill by description → none.
 `$ask-matt` only when the path is unclear. Casual chat stays with the root
-agent. A completed workflow recommends one `Next` and stops, except `$check`'s
-review/fix loop, `$address-pr-comments`' embedded `$check`, and phases owned
-by explicit `$cycle` / `$epayment-cycle`. Matt and SprintFlow addons share the
-same one-workflow-per-task-entry budget.
+agent. A completed workflow recommends one `Next` and stops, except `$check` /
+`$epayment-check` gauntlet/thermos/fix loops and `$address-pr-comments`'
+embedded `$check`. Matt and SprintFlow addons share the same
+one-workflow-per-task-entry budget.
 
 Situation → Next table: `references/next-skill-router.md`. Registry:
 `~/.cursor/sprintflow-backend.json`.
@@ -80,15 +80,13 @@ row in Evidence. Do not auto-chain, poll CI, or infer tracker/merge authority.
 - The current request authorizes only its named, bounded outcome. Automatic
   routing adds no authority.
 - Ticket Done / handoff: only `$close` / `$epayment-handoff` (see
-  `references/tracker-sync.md`). Normal PR: `$pr` or explicit `$cycle` via its
-  guard. Merge: only `$land` (never inside either cycle). Epayment draft PR /
-  push: only `$epayment-pr`.
+  `references/tracker-sync.md`). Normal PR: `$pr`. Merge: only `$land`.
+  Epayment draft PR / push: only `$epayment-pr`.
 - Stop before destructive history, credentials, prod/admin, deploy, material
   scope growth, or work outside the named skill.
-- One bounded pass unless explicit `$cycle` / `$epayment-cycle` owns the loop.
-  `$check` runs one `$code-review` per tree and its fix loop while progress
-  continues. Cycles: poll ≥60s, ≤8 guard-receipted outer repairs, one
-  pre-persisted sync.
+- One bounded pass outside `$check` / `$epayment-check` loops. Those run
+  `$gauntlet` then one `$thermos` per tree and their fix loop while progress
+  continues.
 - Required tools missing → stop with evidence. Advisory tools may record
   `unavailable` and continue. Do not install, authenticate, or substitute
   authority.
@@ -111,21 +109,23 @@ Some of these are skills, not MCP. Never send credentials, customer data, ticket
 
 - Helper: `~/.cursor/bin/sprintflow-evidence.mjs`. Scope:
   `~/.cursor/bin/sprintflow-scope.mjs`.
-- Receipts log stays at `~/.codex/logs/sprintflow-review-receipts.jsonl`
-  (do not retarget casually).
-- Normal `$check`: fingerprint the tree, one `$code-review`, `$fix` loop.
+- Receipts log: `~/.cursor/logs/sprintflow-review-receipts.jsonl` (Codex path
+  may symlink here).
+- Normal `$check`: `$gauntlet`, fingerprint the tree, one `$thermos`, `$fix`
+  loop. Unavailable/unresolved thermos grades WARN and still releases.
   Commit SHA / PR body / chat are not authoritative.
 - `skipped-with-reason` only for verified no-code / docs-only work.
-- Epayment `$epayment-check` still requires same-tree `codex-high` and
-  `claude-fable-high` receipts. Those reviewers are **explicit user/CLI or
-  designated second-opinion exceptions** to cursor-native-only — never ambient
-  spawns from normal `$check`. Unavailable dual evidence blocks epayment PASS.
-- Non-mjs helpers (`epayment-gh`, `unattended-preflight`) remain under
-  `~/.codex/` for now.
+- Epayment `$epayment-check`: same `$gauntlet` → `$thermos` → `$fix` shape.
+  Code-changing PASS requires a usable same-tree thermos report; unavailable
+  or unresolved thermos blocks epayment PASS. Manual `/code-review` remains
+  available outside the gate.
+- `epayment-gh` lives under `~/.cursor/bin/` (Codex may symlink). Other Codex
+  leftovers (`unattended-preflight`, `epayment-devdb`) may remain under
+  `~/.codex/`.
 
 ## Output
 
 `Summary`, `Evidence`, optional structured `Findings`, one `Next`. User-facing
 `Next` uses `/name` (never `$name`); internal narrative may keep `$name`.
 Specialized skills may add `Start Brief`, `QA Plan`, or `PR`. Then stop unless
-`$check` is in its loop or explicit `$cycle` / `$epayment-cycle` is advancing.
+`$check` / `$epayment-check` is in its gauntlet/thermos/fix loop.
