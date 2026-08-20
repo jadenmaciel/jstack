@@ -1,6 +1,6 @@
 # Cloud ship proof
 
-Status: **cloud-native dual-pack** (2026-08-20)
+Status: **passed** — dual-pack + start re-sync (2026-08-20)
 
 ## Model
 
@@ -11,6 +11,8 @@ Status: **cloud-native dual-pack** (2026-08-20)
 
 Consumer repos run `bash .cursor/install-jstack-skills.sh` on **install** and **start** so every agent boot pulls latest `main`.
 
+Install copies `skills/` contents into each subtree (paths are `…/jstack/align/ship`, not `…/jstack/skills/align/ship`).
+
 ## Local
 
 ```bash
@@ -20,7 +22,7 @@ bash scripts/sync-local-plugin.sh
 bash scripts/sync-local-plugin.sh
 ```
 
-Plugins: `~/.cursor/plugins/local/jstack` + `…/jstack-personal` (real copies).
+Plugins: `~/.cursor/plugins/local/jstack` + `…/jstack-personal` (real copies, not symlinks).
 
 ## Consumers (default branch)
 
@@ -32,14 +34,27 @@ Plugins: `~/.cursor/plugins/local/jstack` + `…/jstack-personal` (real copies).
 
 work/troute: not wired.
 
-## Evidence
+## Clark proof (dual-pack + future-proof)
 
-- Fixture: core 28 + personal 6 SKILL.md under separate subtrees.
-- ADR: `docs/adr/0006-public-core-private-overlay.md`
-- Prior SHIP_OK proof on clark (pre-split): agent `bc-77315c28-ed03-4df8-bdfa-6e01e196aff4` — rebuild after this rollout for dual-pack paths.
+| Item | Value |
+|------|--------|
+| Env | `ecab15a7-903f-11f1-a7d1-d6b4613131ce` |
+| Active build | `bld-20260820-aa0a3278-9b3d-46b3-ae62-06e5067f7d29` (Success) |
+| Install / Start | `install-jstack-skills.sh` (+ venv on install) |
+| Proof agent | https://cursor.com/agents/bc-58ebe708-32ef-4cbb-bf76-ed7d78a3ff38 |
+
+| Check | Result |
+|-------|--------|
+| `find ~/.cursor/skills/jstack -name SKILL.md \| wc -l` | **28** |
+| `…/jstack/align/ship/SKILL.md` | **SHIP_OK** |
+| `cat …/jstack/FUTUREPROOF_MARKER.txt` | **CLOUD_NATIVE_FUTUREPROOF_20260820_1135** |
+| `find ~/.cursor/skills/jstack-personal -name SKILL.md \| wc -l` | **6** |
+| `…/jstack-personal/day/standup/SKILL.md` | **STANDUP_OK** |
+
+Future-proof: marker commit `779bbf6` was pushed to public `jstack` **main** after the active build; the agent still saw it via **start** re-clone (no rebuild required).
 
 ## Operator notes
 
-1. Ensure dashboard secret `CURSOR_CLOUD_HOME_TOKEN` is a PAT that can clone **`jstack-personal`** (public jstack needs no token).
-2. After pushing pack or consumer hooks, Trigger New Build and Activate draft if needed.
-3. Future-proof: edit public/personal → `git push` → next agent **start** re-clones (no Mac sync).
+1. Dashboard secret `CURSOR_CLOUD_HOME_TOKEN` must clone **`jstack-personal`** (public core needs no token).
+2. After consumer hook changes, Trigger New Build and Activate draft if needed.
+3. Edit pack → `git push` → next agent **start** re-clones (no Mac sync).
