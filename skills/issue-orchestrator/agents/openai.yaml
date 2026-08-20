@@ -1,4 +1,0 @@
-interface:
-  display_name: "Issue Orchestrator"
-  short_description: "Run ticket queues through Codex threads"
-  default_prompt: "Use $issue-orchestrator to pull approved GitHub or Jira tickets, create Codex worktree threads, and monitor them to PR-ready evidence."

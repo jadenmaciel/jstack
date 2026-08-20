@@ -1,0 +1,11 @@
+{
+  "$schema": "https://www.cursor.com/schemas/environment.schema.json",
+  "install": "pnpm install --frozen-lockfile",
+  "disableAllMcpServers": false,
+  "mcpServerAllowlist": [
+    { "name": "github", "serverUrl": "https://api.githubcopilot.com/mcp/*" },
+    { "name": "doppler", "command": "*doppler*" },
+    { "name": "sentry", "serverUrl": "https://*.sentry.io/*" },
+    { "name": "configcat", "command": "*configcat*" }
+  ]
+}

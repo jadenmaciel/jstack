@@ -1,0 +1,20 @@
+{
+	"name": "cursor-cloud-home",
+	"displayName": "Cursor Cloud Home",
+	"version": "0.1.0",
+	"description": "Personal curated Agent Skills pack for Cursor IDE and Cloud Agents (repo SSOT).",
+	"author": {
+		"name": "Jaden Maciel"
+	},
+	"license": "UNLICENSED",
+	"keywords": ["skills", "cloud-agents", "personal"],
+	"category": "developer-tools",
+	"skills": [
+		"./skills/align",
+		"./skills/style",
+		"./skills/research",
+		"./skills/day",
+		"./skills/repo",
+		"./skills/misc"
+	]
+}

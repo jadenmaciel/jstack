@@ -1,6 +1,0 @@
-interface:
-  display_name: "Epayment Check"
-  short_description: "Gauntlet + thermos epayment ship gate"
-  default_prompt: "Use $epayment-check to validate this epayment implementation."
-policy:
-  allow_implicit_invocation: false

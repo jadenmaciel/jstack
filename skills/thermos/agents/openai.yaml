@@ -1,6 +1,0 @@
-interface:
-  display_name: "Thermos"
-  short_description: "Dual thermo-nuclear bug/security + code-quality review"
-  default_prompt: "Use $thermos to review this branch."
-policy:
-  allow_implicit_invocation: true

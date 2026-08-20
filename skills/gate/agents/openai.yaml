@@ -1,6 +1,0 @@
-interface:
-  display_name: "Gate"
-  short_description: "Inspect one PR head for landing readiness"
-  default_prompt: "Use $gate to inspect this PR once for landing readiness."
-policy:
-  allow_implicit_invocation: false

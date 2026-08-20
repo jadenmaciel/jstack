@@ -1,6 +1,0 @@
-interface:
-  display_name: "Epayment Coach"
-  short_description: "Teach one safe epayment step at a time"
-  default_prompt: "Use $epayment-coach to teach me the next safe step."
-policy:
-  allow_implicit_invocation: false

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Company Standard"
-  short_description: "Apply verified company and product standards"
-  default_prompt: "Use $company-standard to verify the live sources and implement this change according to current company standards."
