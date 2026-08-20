@@ -35,7 +35,7 @@ on the current tree. A ticked box with no passing test is a defect.
 - [x] Local symlink into `~/.cursor/plugins/local/<name>`; smoke that plugin/keepers load (document proof in `docs/proof/local-plugin.md`)
   - Test: `name=$(jq -r .name .cursor-plugin/plugin.json) && test -L "$HOME/.cursor/plugins/local/$name" && test -f docs/proof/local-plugin.md`
 
-- [ ] Cloud proof before laptop purge: record Build/install log + `/ship` visible in `docs/proof/cloud-ship.md`
+- [x] Cloud proof before laptop purge: record Build/install log + `/ship` visible in `docs/proof/cloud-ship.md`
   - Test: `test -f docs/proof/cloud-ship.md && rg -q "/ship|ship" docs/proof/cloud-ship.md`
 
 - [ ] Purge migrated/deleted dirs from laptop `~/.cursor/skills` (after proof tasks pass)
