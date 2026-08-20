@@ -1,39 +1,45 @@
 # Cloud ship proof
 
-Status: **passed** (2026-08-20)
+Status: **cloud-native dual-pack** (2026-08-20)
 
-## Environment
+## Model
 
-- Repo: `jadenmaciel/clark-agency`
-- Active build: `bld-20260820-86eae8aa-5918-4c78-9c98-d92e323750a6` (manual, Success, activated)
-- Build commit: `08e10e4` (venv fix); snapshot later pinned in `0f263e3`
-- Proof agent: https://cursor.com/agents/bc-77315c28-ed03-4df8-bdfa-6e01e196aff4
+| Pack | Visibility | Cloud path | Token |
+|------|------------|------------|-------|
+| [jadenmaciel/jstack](https://github.com/jadenmaciel/jstack) | **Public** MIT | `~/.cursor/skills/jstack/` | none |
+| [jadenmaciel/jstack-personal](https://github.com/jadenmaciel/jstack-personal) | **Private** | `~/.cursor/skills/jstack-personal/` | `CURSOR_CLOUD_HOME_TOKEN` must read this repo |
 
-## Fix that unblocked installs
+Consumer repos run `bash .cursor/install-jstack-skills.sh` on **install** and **start** so every agent boot pulls latest `main`.
 
-Recurring builds failed with:
+## Local
 
-```text
-The virtual environment was not created successfully because ensurepip is not available.
-apt install python3.12-venv
+```bash
+# jstack checkout
+bash scripts/sync-local-plugin.sh
+# jstack-personal checkout
+bash scripts/sync-local-plugin.sh
 ```
 
-`clark-agency` `.cursor/environment.json` install now runs `sudo apt-get install -y python3-venv` before `python3 -m venv .venv`, after `bash .cursor/install-cloud-home-skills.sh`.
+Plugins: `~/.cursor/plugins/local/jstack` + `…/jstack-personal` (real copies).
 
-## Agent evidence
+## Consumers (default branch)
 
-Read-only check on the activated build:
+| Repo | Branch | Wired |
+|------|--------|-------|
+| clark-agency | main | install + start |
+| purely-expo | main | install + start |
+| Purely (purely-ios) | main | install.sh + start |
 
-| Check | Result |
-|-------|--------|
-| `find ~/.cursor/skills/cursor-cloud-home -name SKILL.md \| wc -l` | `34` |
-| `ls …/align/ship` | present (`SKILL.md` + `references/`) |
-| `test -f …/align/ship/SKILL.md` | `SHIP_OK` |
-| pack dirs | `align day misc repo research style` |
+work/troute: not wired.
 
-`/ship` skill file is on the Cloud VM under the pack-owned subtree.
+## Evidence
 
-## Notes
+- Fixture: core 28 + personal 6 SKILL.md under separate subtrees.
+- ADR: `docs/adr/0006-public-core-private-overlay.md`
+- Prior SHIP_OK proof on clark (pre-split): agent `bc-77315c28-ed03-4df8-bdfa-6e01e196aff4` — rebuild after this rollout for dual-pack paths.
 
-- Dashboard **Install Script** UI may still show an older inline clone snippet; builds from repo `environment.json` on `main` are the working path used for this proof.
-- Laptop purge (2026-08-20): removed 43 dirs under `~/.cursor/skills` (all `pack.keep` copies + delete-set including `obsidian-note`). Left non-pack leftovers and `.system`. Local load path is `~/.cursor/plugins/local/cursor-cloud-home`.
+## Operator notes
+
+1. Ensure dashboard secret `CURSOR_CLOUD_HOME_TOKEN` is a PAT that can clone **`jstack-personal`** (public jstack needs no token).
+2. After pushing pack or consumer hooks, Trigger New Build and Activate draft if needed.
+3. Future-proof: edit public/personal → `git push` → next agent **start** re-clones (no Mac sync).
