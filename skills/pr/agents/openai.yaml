@@ -1,6 +1,0 @@
-interface:
-  display_name: "PR"
-  short_description: "Open a normal PR after a clean check"
-  default_prompt: "Use $pr to commit, push, and open this clean normal-path change."
-policy:
-  allow_implicit_invocation: false

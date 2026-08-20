@@ -1,0 +1,21 @@
+name: Codecov
+
+on:
+  pull_request:
+  push:
+    branches: [main, develop]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests with coverage
+        run: |
+          echo "TODO: replace with this repo's coverage command"
+          exit 1
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://www.cursor.com/schemas/environment.schema.json",
+  "install": ".cursor/cloud-env.sh install",
+  "start": ".cursor/cloud-env.sh start",
+  "disableAllMcpServers": false,
+  "mcpServerAllowlist": [
+    { "name": "github", "serverUrl": "https://api.githubcopilot.com/mcp/*" },
+    { "name": "doppler", "command": "*doppler*" },
+    { "name": "linear", "serverUrl": "https://*.linear.app/*" },
+    { "name": "atlassian", "serverUrl": "https://*.atlassian.net/*" }
+  ]
+}

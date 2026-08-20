@@ -1,0 +1,3 @@
+interface:
+  display_name: "X Research"
+  short_description: "Live posts from X/Twitter via Grok"

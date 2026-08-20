@@ -1,0 +1,11 @@
+{
+  "$schema": "https://www.cursor.com/schemas/environment.schema.json",
+  "install": "cargo fetch",
+  "disableAllMcpServers": false,
+  "mcpServerAllowlist": [
+    { "name": "github", "serverUrl": "https://api.githubcopilot.com/mcp/*" },
+    { "name": "doppler", "command": "*doppler*" },
+    { "name": "linear", "serverUrl": "https://*.linear.app/*" },
+    { "name": "atlassian", "serverUrl": "https://*.atlassian.net/*" }
+  ]
+}

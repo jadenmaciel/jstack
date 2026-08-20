@@ -1,6 +1,0 @@
-interface:
-  display_name: "Epayment Handoff"
-  short_description: "Move reviewed TROUT work to Code Review"
-  default_prompt: "Use $epayment-handoff to hand this draft PR to the team."
-policy:
-  allow_implicit_invocation: false
