@@ -4,7 +4,7 @@ Date: 2026-08-20 (updated after rename to `jstack`)
 
 ## Filesystem (verified)
 
-- Symlink: `~/.cursor/plugins/local/jstack` → `/Users/testadmin/Development/personal/jstack`
+- Install: real directory at `~/.cursor/plugins/local/jstack` (rsync copy; Cursor rejects external symlinks here)
 - Manifest: `.cursor-plugin/plugin.json` name `jstack`
 - Plugin skill roots (array): `align`, `style`, `research`, `day`, `repo`, `misc`
 - Discoverable `SKILL.md` count under those roots: **34** (includes `skills/align/ship`)
