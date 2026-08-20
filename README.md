@@ -6,13 +6,18 @@ Formerly `cursor-cloud-home`.
 
 ## Local plugin install
 
+Cursor rejects external symlinks under `~/.cursor/plugins/local`. Use a **real copy** (rsync):
+
 ```bash
-ln -sfn "$(pwd)" ~/.cursor/plugins/local/jstack
+DEST="$HOME/.cursor/plugins/local/jstack"
+mkdir -p "$DEST"
+rsync -a --delete --exclude '.git/' --exclude 'graphify-out/' "$(pwd)/" "$DEST/"
 ```
 
-Reload Cursor. Skills load from `.cursor-plugin/plugin.json`. Edit in this checkout; sync with `git push`.
+Or: `bash scripts/sync-local-plugin.sh` from this repo.
 
-Do not treat `~/.cursor/skills` as the source of truth.
+Reload Cursor (**Developer: Reload Window**). Enable **jstack** under Settings → Plugins if it is listed but disabled. Skills load from `.cursor-plugin/plugin.json`. Edit in this checkout, then re-run the sync and reload.
+
 
 ## Cloud skills install
 
