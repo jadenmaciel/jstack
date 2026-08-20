@@ -38,7 +38,7 @@ on the current tree. A ticked box with no passing test is a defect.
 - [x] Cloud proof before laptop purge: record Build/install log + `/ship` visible in `docs/proof/cloud-ship.md`
   - Test: `test -f docs/proof/cloud-ship.md && rg -q "/ship|ship" docs/proof/cloud-ship.md`
 
-- [ ] Purge migrated/deleted dirs from laptop `~/.cursor/skills` (after proof tasks pass)
+- [x] Purge migrated/deleted dirs from laptop `~/.cursor/skills` (after proof tasks pass)
   - Test: `for n in gauntlet code-review pr-review address-pr-comments thermos clock-out stop-slop deep-research obsidian-vault; do test ! -e "$HOME/.cursor/skills/$n"; done && while IFS= read -r n; do [ -z "$n" ] && continue; test ! -e "$HOME/.cursor/skills/$n"; done < pack.keep`
 
 - [x] Confirm glossary + ADRs still match

@@ -36,4 +36,4 @@ Read-only check on the activated build:
 ## Notes
 
 - Dashboard **Install Script** UI may still show an older inline clone snippet; builds from repo `environment.json` on `main` are the working path used for this proof.
-- Laptop purge of duplicate `~/.cursor/skills` copies is still open (irreversible; confirm before running).
+- Laptop purge (2026-08-20): removed 43 dirs under `~/.cursor/skills` (all `pack.keep` copies + delete-set including `obsidian-note`). Left non-pack leftovers and `.system`. Local load path is `~/.cursor/plugins/local/cursor-cloud-home`.
