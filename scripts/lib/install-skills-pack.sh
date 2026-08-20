@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# Shared Cloud skills install for cursor-cloud-home.
-# Syncs pack skills into $HOME/.cursor/skills/cursor-cloud-home/ (idempotent).
+# Shared Cloud skills install for jstack (formerly cursor-cloud-home).
+# Syncs pack skills into $HOME/.cursor/skills/jstack/ (idempotent).
 # Env:
 #   SKILLS_PACK_SRC  — if set, use this dir as the pack root (skip git)
-#   CURSOR_CLOUD_HOME_TOKEN — required when SKILLS_PACK_SRC unset
-#   CURSOR_CLOUD_HOME_REPO — default jadenmaciel/cursor-cloud-home
-#   CURSOR_CLOUD_HOME_BRANCH — default main (use skills-pack-rebuild until merged)
+#   CURSOR_CLOUD_HOME_TOKEN — required when SKILLS_PACK_SRC unset (dashboard secret name kept)
+#   CURSOR_CLOUD_HOME_REPO — default jadenmaciel/jstack
+#   CURSOR_CLOUD_HOME_BRANCH — default main
 set -euo pipefail
 
-PACK_SUBTREE="${HOME}/.cursor/skills/cursor-cloud-home"
-REPO="${CURSOR_CLOUD_HOME_REPO:-jadenmaciel/cursor-cloud-home}"
+PACK_SUBTREE="${HOME}/.cursor/skills/jstack"
+REPO="${CURSOR_CLOUD_HOME_REPO:-jadenmaciel/jstack}"
 BRANCH="${CURSOR_CLOUD_HOME_BRANCH:-main}"
-CLONE_DIR="${HOME}/.cursor/cloud-home"
+CLONE_DIR="${HOME}/.cursor/jstack-src"
 
 install_from_src() {
   local src="$1"
@@ -24,7 +24,9 @@ install_from_src() {
   rm -rf "$PACK_SUBTREE"
   mkdir -p "$PACK_SUBTREE"
   cp -a "${skills_src}/." "$PACK_SUBTREE/"
-  echo "cloud-home skills: $(find "$PACK_SUBTREE" -name SKILL.md | wc -l | tr -d ' ') -> ${PACK_SUBTREE}"
+  # Also remove legacy subtree name if present from older installs.
+  rm -rf "${HOME}/.cursor/skills/cursor-cloud-home"
+  echo "jstack skills: $(find "$PACK_SUBTREE" -name SKILL.md | wc -l | tr -d ' ') -> ${PACK_SUBTREE}"
 }
 
 clone_pack() {

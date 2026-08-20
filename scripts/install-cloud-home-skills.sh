@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Drop into consumer repos as .cursor/install-cloud-home-skills.sh
-# Requires dashboard secret CURSOR_CLOUD_HOME_TOKEN.
+# Requires dashboard secret CURSOR_CLOUD_HOME_TOKEN (name kept; clones jadenmaciel/jstack).
 set -euo pipefail
 
 if [[ -z "${CURSOR_CLOUD_HOME_TOKEN:-}" ]]; then
@@ -8,10 +8,9 @@ if [[ -z "${CURSOR_CLOUD_HOME_TOKEN:-}" ]]; then
   exit 1
 fi
 
-REPO="${CURSOR_CLOUD_HOME_REPO:-jadenmaciel/cursor-cloud-home}"
-# Until skills-pack-rebuild is on main, pin the feature branch.
-BRANCH="${CURSOR_CLOUD_HOME_BRANCH:-skills-pack-rebuild}"
-CLONE="${HOME}/.cursor/cloud-home"
+REPO="${CURSOR_CLOUD_HOME_REPO:-jadenmaciel/jstack}"
+BRANCH="${CURSOR_CLOUD_HOME_BRANCH:-main}"
+CLONE="${HOME}/.cursor/jstack-src"
 AUTH="$(printf 'x-access-token:%s' "$CURSOR_CLOUD_HOME_TOKEN" | base64 | tr -d '\n')"
 
 rm -rf "$CLONE"

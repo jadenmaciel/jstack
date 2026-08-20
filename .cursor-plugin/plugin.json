@@ -1,13 +1,13 @@
 {
-	"name": "cursor-cloud-home",
-	"displayName": "Cursor Cloud Home",
+	"name": "jstack",
+	"displayName": "jstack",
 	"version": "0.1.0",
 	"description": "Personal curated Agent Skills pack for Cursor IDE and Cloud Agents (repo SSOT).",
 	"author": {
 		"name": "Jaden Maciel"
 	},
 	"license": "UNLICENSED",
-	"keywords": ["skills", "cloud-agents", "personal"],
+	"keywords": ["skills", "cloud-agents", "personal", "jstack"],
 	"category": "developer-tools",
 	"skills": [
 		"./skills/align",

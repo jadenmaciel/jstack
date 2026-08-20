@@ -1,11 +1,13 @@
-# cursor-cloud-home
+# jstack
 
 Private **Skills pack** (repo SSOT) for Cursor IDE and Cursor Cloud Agents.
+
+Formerly `cursor-cloud-home`.
 
 ## Local plugin install
 
 ```bash
-ln -sfn "$(pwd)" ~/.cursor/plugins/local/cursor-cloud-home
+ln -sfn "$(pwd)" ~/.cursor/plugins/local/jstack
 ```
 
 Reload Cursor. Skills load from `.cursor-plugin/plugin.json`. Edit in this checkout; sync with `git push`.
@@ -22,11 +24,11 @@ bash .cursor/install-cloud-home-skills.sh
 
 Copy `scripts/install-cloud-home-skills.sh` from this repo into the consumer as `.cursor/install-cloud-home-skills.sh`.
 
-Dashboard secret: `CURSOR_CLOUD_HOME_TOKEN` (read-only PAT for this private repo). Rotate when exposed.
+Dashboard secret: `CURSOR_CLOUD_HOME_TOKEN` (read-only PAT for this private repo; secret name kept for existing Cloud envs). Rotate when exposed.
 
-Optional: `CURSOR_CLOUD_HOME_BRANCH` (default in the hook today: `skills-pack-rebuild` until that lands on `main`).
+Optional: `CURSOR_CLOUD_HOME_REPO` (default `jadenmaciel/jstack`), `CURSOR_CLOUD_HOME_BRANCH` (default `main`).
 
-The install syncs into `~/.cursor/skills/cursor-cloud-home/` on the VM (pack-owned subtree). It does not wipe the entire `~/.cursor/skills` tree. Missing token fails the Build.
+The install syncs into `~/.cursor/skills/jstack/` on the VM (pack-owned subtree). It does not wipe the entire `~/.cursor/skills` tree. Missing token fails the Build.
 
 Fixture / local test override:
 
