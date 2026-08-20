@@ -5,7 +5,7 @@ Private personal Agent Skills pack: curated daily workflows for Cursor IDE and C
 ## Language
 
 **Skills pack**:
-The private Git repository that owns the curated Agent Skills and Cursor plugin manifest. Today this repo (`cursor-cloud-home`).
+The private Git repository that owns the curated Agent Skills and Cursor plugin manifest. Today this repo (`jstack`, formerly `cursor-cloud-home`).
 _Avoid_: skills mirror, cloud home dump, ~/.cursor/skills (as source of truth)
 
 **Skill**:
@@ -25,7 +25,7 @@ Loading the pack on a laptop by symlinking the repo root into `~/.cursor/plugins
 _Avoid_: copying into ~/.cursor/skills on the laptop
 
 **Cloud skills install**:
-Materializing pack skills onto a Cloud Agent VM by cloning this private repo during `environment.json` `install` and syncing `skills/` into the pack-owned subtree `~/.cursor/skills/cursor-cloud-home/`.
+Materializing pack skills onto a Cloud Agent VM by cloning this private repo during `environment.json` `install` and syncing `skills/` into the pack-owned subtree `~/.cursor/skills/jstack/`.
 _Avoid_: Team Marketplace, syncing the laptop home directory, wiping the entire `~/.cursor/skills` tree
 
 **Cloud home token**:
