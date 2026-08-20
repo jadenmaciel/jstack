@@ -4,7 +4,6 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DEST="${HOME}/.cursor/plugins/local/jstack"
 mkdir -p "$DEST"
-# Drop a leftover symlink from older installs.
 if [[ -L "$DEST" ]]; then
   rm -f "$DEST"
   mkdir -p "$DEST"

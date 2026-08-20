@@ -1,12 +1,16 @@
-# Cursor Cloud Home
+# jstack
 
-Private personal Agent Skills pack: curated daily workflows for Cursor IDE and Cursor Cloud Agents. Repo is the single source of truth.
+Public personal Agent Skills pack: curated daily workflows for Cursor IDE and Cursor Cloud Agents. Repo is the single source of truth for the **public core**.
 
 ## Language
 
 **Skills pack**:
-The private Git repository that owns the curated Agent Skills and Cursor plugin manifest. Today this repo (`jstack`, formerly `cursor-cloud-home`).
+The public Git repository (`jstack`) that owns the curated Agent Skills and Cursor plugin manifest for the shareable core.
 _Avoid_: skills mirror, cloud home dump, ~/.cursor/skills (as source of truth)
+
+**Personal overlay**:
+The private Git repository (`jstack-personal`) that owns personal/work-specific skills layered beside the Skills pack on Cloud and locally.
+_Avoid_: embedding ExpiTrans/standup specifics in the public Skills pack
 
 **Skill**:
 A folder containing a `SKILL.md` (and optional scripts/references) that teaches an agent a workflow. Packaged under categorized `skills/` directories.
@@ -21,20 +25,20 @@ A named entry path into **Ship**: `gauntlet` (verify gates), `review` (Standards
 _Avoid_: sub-skill, phase (unless describing internal steps)
 
 **Local plugin install**:
-Loading the pack on a laptop by symlinking the repo root into `~/.cursor/plugins/local/<name>` so Cursor discovers the `.cursor-plugin` manifest and skills.
-_Avoid_: copying into ~/.cursor/skills on the laptop
+Loading a pack on a laptop by rsync-copying the repo into `~/.cursor/plugins/local/<name>` (Cursor rejects external symlinks there) so Cursor discovers the `.cursor-plugin` manifest and skills.
+_Avoid_: symlink into plugins/local, copying into ~/.cursor/skills on the laptop as SSOT
 
 **Cloud skills install**:
-Materializing pack skills onto a Cloud Agent VM by cloning this private repo during `environment.json` `install` and syncing `skills/` into the pack-owned subtree `~/.cursor/skills/jstack/`.
-_Avoid_: Team Marketplace, syncing the laptop home directory, wiping the entire `~/.cursor/skills` tree
+Materializing pack skills onto a Cloud Agent VM by cloning the public Skills pack (no token) and optionally the Personal overlay (with token) during `environment.json` `install`/`start` into pack-owned subtrees under `~/.cursor/skills/`.
+_Avoid_: Team Marketplace Required (needs Teams), syncing the laptop home directory, wiping the entire `~/.cursor/skills` tree
 
 **Cloud home token**:
-The Cursor dashboard secret (`CURSOR_CLOUD_HOME_TOKEN`) used to HTTPS-clone this private repo on Cloud VMs.
+The Cursor dashboard secret (`CURSOR_CLOUD_HOME_TOKEN`) used to HTTPS-clone the private **Personal overlay**. Not required for the public Skills pack.
 _Avoid_: GitHub password, laptop credential
 
 ## Relationships
 
-- The **Skills pack** contains many **Skills**, including **Ship**.
-- **Ship** exposes several **Ship modes**.
-- **Local plugin install** and **Cloud skills install** both consume the same **Skills pack** git history; on-disk layout differs by environment.
-- **Cloud skills install** requires a **Cloud home token**.
+- The **Skills pack** contains many public **Skills**, including **Ship**.
+- The **Personal overlay** contains personal **Skills** that must not ship in the public tree.
+- **Local plugin install** and **Cloud skills install** both consume git history; on-disk layout differs by environment.
+- **Cloud skills install** of the Personal overlay requires a **Cloud home token**.

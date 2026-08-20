@@ -2,12 +2,17 @@
 	"name": "jstack",
 	"displayName": "jstack",
 	"version": "0.1.0",
-	"description": "Personal curated Agent Skills pack for Cursor IDE and Cloud Agents (repo SSOT).",
+	"description": "Public curated Agent Skills pack for Cursor IDE and Cloud Agents (jstack core).",
 	"author": {
 		"name": "Jaden Maciel"
 	},
-	"license": "UNLICENSED",
-	"keywords": ["skills", "cloud-agents", "personal", "jstack"],
+	"license": "MIT",
+	"keywords": [
+		"skills",
+		"cloud-agents",
+		"personal",
+		"jstack"
+	],
 	"category": "developer-tools",
 	"skills": [
 		"./skills/align",

@@ -7,7 +7,6 @@ to-tickets
 wayfinder
 implement
 prototype
-ticket-start
 ship
 handoff
 ponytail
@@ -20,12 +19,7 @@ agent-reach
 last30days
 slop
 day-sync
-day-wrap
-payday
-standup
-reflect-sessions
 repo-onboard
-repo-services
 triage
 wizard
 improve-codebase-architecture
