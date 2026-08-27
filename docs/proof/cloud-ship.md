@@ -48,7 +48,7 @@ work/troute: not wired.
 | `find ~/.cursor/skills/jstack -name SKILL.md \| wc -l` | **28** |
 | `…/jstack/align/ship/SKILL.md` | **SHIP_OK** |
 | `cat …/jstack/FUTUREPROOF_MARKER.txt` | **CLOUD_NATIVE_FUTUREPROOF_20260820_1135** |
-| `find ~/.cursor/skills/jstack-personal -name SKILL.md \| wc -l` | **6** |
+| `find ~/.cursor/skills/jstack-personal -name SKILL.md \| wc -l` | **6** (2026-08-20 proof); **7** after `jaden-mode` lands |
 | `…/jstack-personal/day/standup/SKILL.md` | **STANDUP_OK** |
 
 Future-proof: marker commit `779bbf6` was pushed to public `jstack` **main** after the active build; the agent still saw it via **start** re-clone (no rebuild required).
