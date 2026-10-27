@@ -13,7 +13,7 @@ We need jstack skills on every personal Cloud Agent without depending on Mac syn
 Split into:
 
 1. **Public** `jadenmaciel/jstack` (MIT) — generic agent OS; Cloud clones without a token into `~/.cursor/skills/jstack/`.
-2. **Private** `jadenmaciel/jstack-personal` — six personal skills; Cloud clones with `CURSOR_CLOUD_HOME_TOKEN` into `~/.cursor/skills/jstack-personal/`.
+2. **Private** `jadenmaciel/jstack-personal` — seven personal skills (six day/align/repo skills plus experimental `jaden-mode`); Cloud clones with `CURSOR_CLOUD_HOME_TOKEN` into `~/.cursor/skills/jstack-personal/`.
 
 Local IDE loads both as separate rsync copies under `~/.cursor/plugins/local/`. Consumer `install` and `start` both run the installer so agent boots pull latest `main`.
 
